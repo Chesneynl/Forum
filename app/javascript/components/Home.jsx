@@ -1,17 +1,56 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 
-export default () => (
-  <div className="vw-100 vh-100 primary-color d-flex align-items-center justify-content-center">
-    <div className="jumbotron jumbotron-fluid bg-transparent">
-      <div className="container secondary-color">
-        <h1 className="display-4">Food Recipes</h1>
-        <p className="lead">A curated list of recipes for the best homemade meal and delicacies.</p>
-        <hr className="my-4" />
-        <Link to="/recipes" className="btn btn-lg custom-button" role="button">
-          View Recipes
-        </Link>
+function Home() {
+  const [posts, setPosts] = useState([])
+
+  useEffect(() => {
+    const url = '/api/v1/posts/index'
+    fetch(url)
+      .then(response => {
+        if (response.ok) {
+          return response.json()
+        }
+        throw new Error('Network response was not ok.')
+      })
+      .then(response => setPosts(response))
+      .catch(() => props.history.push('/'))
+  }, [])
+
+  const allposts = posts.map((recipe, index) => (
+    <div key={index} className="col-md-6 col-lg-4">
+      <div className="card mb-4">
+        <img src={recipe.image} className="card-img-top" alt={`${recipe.name} image`} />
+        <div className="card-body">
+          <h5 className="card-title">{recipe.name}</h5>
+          <Link to={`/post/${recipe.id}`} className="btn custom-button">
+            View Recipe
+          </Link>
+        </div>
       </div>
     </div>
-  </div>
-)
+  ))
+  const noEmpty = (
+    <div className="vw-100 vh-50 d-flex align-items-center justify-content-center">
+      <h4>
+        No posts yet. Why not <Link to="/create-post">create one</Link>
+      </h4>
+    </div>
+  )
+
+  return (
+    <>
+      <div className="py-5">
+        <main className="container">
+          <div className="text-right mb-3">
+            <Link to="/create-post" className="btn custom-button">
+              Create new post
+            </Link>
+          </div>
+          <div className="row">{posts.length > 0 ? allposts : noEmpty}</div>
+        </main>
+      </div>
+    </>
+  )
+}
+export default Home

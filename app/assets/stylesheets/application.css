@@ -34,3 +34,12 @@
   width: 100%;
   opacity: 0.4;
 }
+
+.form-field-error {
+  color: #e06666;
+  margin-top: 10px;
+  font-size: 80%;
+  font-weight: 400;
+  padding-left: 15px;
+  padding: 0 0.75rem;
+}
