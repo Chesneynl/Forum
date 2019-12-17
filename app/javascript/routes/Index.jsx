@@ -4,6 +4,7 @@ import Home from '../components/Home'
 import Post from '../components/Post'
 import CreatePost from '../components/CreatePost'
 import Register from '../components/Register'
+import Login from '../components/Login'
 
 export default (
   <Router>
@@ -12,6 +13,7 @@ export default (
       <Route path="/post/:id" exact component={Post} />
       <Route path="/create-post" exact component={CreatePost} />
       <Route path="/register" exact component={Register} />
+      <Route path="/login" exact component={Login} />
     </Switch>
   </Router>
 )

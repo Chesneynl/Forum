@@ -46,6 +46,12 @@ function Home() {
             <Link to="/create-post" className="btn custom-button">
               Create new post
             </Link>
+            <Link to="/register" className="btn custom-button">
+              Register
+            </Link>
+            <Link to="/login" className="btn custom-button">
+              Login
+            </Link>
           </div>
           <div className="row">{posts.length > 0 ? allposts : noEmpty}</div>
         </main>
