@@ -90,9 +90,6 @@ function CreatePost(props) {
             <button type="submit" className="btn custom-button mt-3">
               Create Recipe
             </button>
-            <Link to="/" className="btn btn-link mt-3">
-              Back to recipes
-            </Link>
           </form>
         </div>
       </div>

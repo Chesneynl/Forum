@@ -1,8 +1,12 @@
 import React, { useState } from 'react'
+import 'bootstrap/dist/css/bootstrap.min.css'
+import 'bootstrap/dist/js/bootstrap.bundle.min'
 
 function Login(props) {
   const [user, setUser] = useState({ email: '', password: '' })
   const [response, setRespoonse] = useState({})
+
+  console.log(props)
 
   const onChange = event => {
     setUser({ ...user, [event.target.name]: event.target.value })
@@ -37,7 +41,7 @@ function Login(props) {
       })
       .then(response => {
         setRespoonse(response)
-        if (!response.errors) {
+        if (response.success) {
           props.history.push('/')
         }
       })
@@ -46,7 +50,7 @@ function Login(props) {
 
   const renderForm = (
     <>
-      <h1 className="font-weight-normal mb-5">Register</h1>
+      <h1 className="font-weight-normal mb-5">Login</h1>
       <form onSubmit={onSubmit}>
         <div className="form-group">
           <label htmlFor="recipeName">Email</label>

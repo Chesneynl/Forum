@@ -1,27 +1,10 @@
-import React, { useState, useEffect } from 'react'
-import { Link } from 'react-router-dom'
+import React from 'react'
+import 'bootstrap/dist/css/bootstrap.min.css'
+import 'bootstrap/dist/js/bootstrap.bundle.min'
+import '../../assets/stylesheets/application.css'
 
 function Post(props) {
-  const [post, setPost] = useState({ name: '', description: '', image: '' })
-  const {
-    match: {
-      params: { id },
-    },
-  } = props
-
-  useEffect(() => {
-    const url = `/api/v1/show/${id}`
-
-    fetch(url)
-      .then(response => {
-        if (response.ok) {
-          return response.json()
-        }
-        throw new Error('Network response was not ok.')
-      })
-      .then(response => setPost(response))
-      .catch(() => props.history.push('/'))
-  }, [])
+  const { post } = props
 
   const addHtmlEntities = str => {
     return String(str)
@@ -81,9 +64,9 @@ function Post(props) {
             </button>
           </div>
         </div>
-        <Link to="/" className="btn btn-link">
+        <a href="/" className="btn btn-link">
           Back to recipes
-        </Link>
+        </a>
       </div>
     </div>
   )

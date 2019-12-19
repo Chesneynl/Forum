@@ -2,13 +2,14 @@ import React, { useState } from 'react'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import 'bootstrap/dist/js/bootstrap.bundle.min'
 
-function Register() {
-  const [user, setUser] = useState({ email: '', username: '', password: '', password_repeat: '' })
+const EditProfile = props => {
+  const { user } = props
   const [errors, setErrors] = useState({})
+
+  console.log(props)
 
   const onChange = event => {
     setErrors({})
-    setUser({ ...user, [event.target.name]: event.target.value })
   }
 
   const onSubmit = event => {
@@ -48,7 +49,7 @@ function Register() {
     <div className="container mt-5">
       <div className="row">
         <div className="col-sm-12 col-lg-6 offset-lg-3">
-          <h1 className="font-weight-normal mb-5">Register</h1>
+          <h1 className="font-weight-normal mb-5">Edit profile</h1>
           <form onSubmit={onSubmit}>
             <div className="form-group">
               <label htmlFor="recipeName">Email</label>
@@ -58,6 +59,7 @@ function Register() {
                 className="form-control"
                 required
                 onChange={onChange}
+                value={user.email}
               />
               {errors.email ? <div className="form-field-error">{errors.email}</div> : null}
             </div>
@@ -106,4 +108,4 @@ function Register() {
   )
 }
 
-export default Register
+export default EditProfile
