@@ -34,6 +34,7 @@ gem 'bootstrap', '~> 4.1.0'
 gem 'jquery-rails'
 gem 'pusher'
 gem 'figaro'
+gem "pundit"  
 
 # Use ActiveStorage variant
 # gem 'mini_magick', '~> 4.8'

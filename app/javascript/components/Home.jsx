@@ -52,6 +52,9 @@ function Home() {
             <Link to="/login" className="btn custom-button">
               Login
             </Link>
+            <Link to="/logout" className="btn custom-button">
+              Logout
+            </Link>
           </div>
           <div className="row">{posts.length > 0 ? allposts : noEmpty}</div>
         </main>

@@ -3,6 +3,7 @@ class User < ApplicationRecord
 
   has_many :assignments  
   has_many :roles, through: :assignments
+  has_many :posts  
 
   validates :email, presence: true, email: true, uniqueness: true
   validates :username, presence: true, uniqueness: true

@@ -5,7 +5,9 @@ class Api::V1::PostsController < ApplicationController
   end
 
   def create
+    post_params[:user_id] = current_user.id
     post = Post.create!(post_params)
+
     if post
       render json: post
     else
@@ -29,7 +31,7 @@ class Api::V1::PostsController < ApplicationController
   private
 
   def post_params
-    params.permit(:name, :image, :description)
+    params.permit(:name, :image, :description ).merge(user_id: current_user.id)
   end
 
   def post

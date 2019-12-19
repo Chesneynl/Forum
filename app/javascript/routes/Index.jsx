@@ -5,6 +5,8 @@ import Post from '../components/Post'
 import CreatePost from '../components/CreatePost'
 import Register from '../components/Register'
 import Login from '../components/Login'
+import Logout from '../components/Logout'
+import Profile from '../components/Profile'
 
 export default (
   <Router>
@@ -14,6 +16,8 @@ export default (
       <Route path="/create-post" exact component={CreatePost} />
       <Route path="/register" exact component={Register} />
       <Route path="/login" exact component={Login} />
+      <Route path="/logout" exact component={Logout} />
+      <Route path="/profile" exact component={Profile} />
     </Switch>
   </Router>
 )
