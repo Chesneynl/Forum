@@ -9,8 +9,8 @@ class AccountController < ApplicationController
   
     def react_props
       @react_props = {
-          posts: current_user.posts,
-          user: current_user
+        posts: current_user.posts,
+        user: current_user
       }
     end 
 

@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+
+  # posts
   namespace :api do
     namespace :v1 do
       get 'posts/index'
@@ -7,16 +9,28 @@ Rails.application.routes.draw do
       delete 'destroy/:id', to: 'posts#destroy'
     end
   end
+
+  namespace :admin do
+    resources :posts, :roles
+  end
+  
+  # account routes
   get 'account/edit-profile', to: 'account#edit'
-  get 'account', to: 'account#index'
+  get 'account/my-posts', to: 'account#index'
+  get 'account/create-post' => 'post#create'
+
+  # post
   get 'post/:id', to: 'post#index'
+
+  # login / register / logout
   get 'login' => 'login#index'
   get 'logout' => 'logout#index'
-  get 'create-post' => 'post#create'
   get "register", to: "register#index"
-  get '*path' => 'home#index'
   post "login", to: "login#login"
   post "register", to: "register#create"
+
+
+  get '*path' => 'home#index'
   root 'home#index'
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 end

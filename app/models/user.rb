@@ -19,4 +19,9 @@ class User < ApplicationRecord
   def role?(role)  
     roles.any? { |r| r.name.underscore.to_sym == role }  
   end  
+
+  def isAdmin?
+    current_user.role?("admin")
+  end
+
 end

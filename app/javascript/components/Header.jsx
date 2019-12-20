@@ -6,8 +6,6 @@ import Link from '../components/ui/Link'
 const Home = props => {
   const { path, user } = props
 
-  console.log(props)
-
   return (
     <>
       <nav className="navbar navbar-expand-lg navbar-light bg-light">
@@ -28,37 +26,11 @@ const Home = props => {
 
         <div className="collapse navbar-collapse" id="navbarSupportedContent">
           <ul className="navbar-nav mr-auto">
-            <Link name="Home" to="/" currentPath={path} />
-            <Link name="Create new post" to="/" currentPath={path} />
-
-            <li className="nav-item dropdown">
-              <a
-                className="nav-link dropdown-toggle"
-                href="#"
-                id="navbarDropdown"
-                role="button"
-                data-toggle="dropdown"
-                aria-haspopup="true"
-                aria-expanded="false"
-              >
-                Dropdown
-              </a>
-              <div className="dropdown-menu" aria-labelledby="navbarDropdown">
-                <a className="dropdown-item" href="#">
-                  Action
-                </a>
-                <a className="dropdown-item" href="#">
-                  Another action
-                </a>
-                <div className="dropdown-divider"></div>
-                <a className="dropdown-item" href="#">
-                  Something else here
-                </a>
-              </div>
-            </li>
+            <Link name="Categories" to="/categories" currentPath={path} />
           </ul>
           <form className="form-inline my-2 my-lg-0">
             <ul className="navbar-nav mr-auto">
+              <Link name="Admin panel" to="/admin/roles" currentPath={path} />
               {!user ? (
                 <>
                   <Link name="Register" to="/register" currentPath={path} />
@@ -66,7 +38,32 @@ const Home = props => {
                 </>
               ) : (
                 <>
-                  <Link name={user.username} to="/account" currentPath={path} />
+                  <li className="nav-item dropdown">
+                    <a
+                      className="nav-link dropdown-toggle"
+                      href="#"
+                      id="navbarDropdown"
+                      role="button"
+                      data-toggle="dropdown"
+                      aria-haspopup="true"
+                      aria-expanded="false"
+                    >
+                      {user.username}
+                    </a>
+                    <div className="dropdown-menu" aria-labelledby="navbarDropdown">
+                      <a className="dropdown-item" href="/account/my-posts">
+                        My posts
+                      </a>
+                      <a className="dropdown-item" href="/account/create-post">
+                        Create post
+                      </a>
+                      <div className="dropdown-divider"></div>
+                      <a className="dropdown-item" href="/account/edit-profile">
+                        Account settings
+                      </a>
+                    </div>
+                  </li>
+
                   <Link name="Logout" to="/logout" currentPath={path} />
                 </>
               )}

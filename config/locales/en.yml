@@ -33,11 +33,16 @@ en:
   activerecord:
     errors:
       models:
+        role:
+          attributes:
+            name:
+              blank: 'foo blank in nl bar baz'
+              taken: 'A role with that name alreadt exists'
         user:
           attributes:
             username:
               blank: 'foo blank in nl bar baz'
-              taken: 'Aleready taken'
+              taken: 'A user with that username is already registerd.'
             email:
               blank: 'foo blank in nl bar baz'
-              taken: 'A user with that email is already registerd to our website'
+              taken: 'A user with that email is already registerd.'

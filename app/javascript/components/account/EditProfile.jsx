@@ -59,7 +59,7 @@ const EditProfile = props => {
                 className="form-control"
                 required
                 onChange={onChange}
-                value={user.email}
+                value={user}
               />
               {errors.email ? <div className="form-field-error">{errors.email}</div> : null}
             </div>

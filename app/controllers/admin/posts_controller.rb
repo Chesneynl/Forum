@@ -1,10 +1,17 @@
-class Api::V1::PostsController < ApplicationController
+class Admin::PostsController < ApplicationController
+
   def index
-    post = Post.all.order(created_at: :desc)
-    render json: post
+    react_props
   end
 
+  def react_props
+    @react_props = {
+        posts: Roles.all.order(created_at: :desc)
+    }
+  end 
+
   def create
+    post_params[:user_id] = current_user.id
     post = Post.create!(post_params)
 
     if post
