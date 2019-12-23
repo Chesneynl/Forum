@@ -1,4 +1,5 @@
 class Admin::PostsController < ApplicationController
+  before_action :authorize
 
   def index
     react_props

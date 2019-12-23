@@ -1,15 +1,13 @@
 import React, { useState } from 'react'
-import 'bootstrap/dist/css/bootstrap.min.css'
-import 'bootstrap/dist/js/bootstrap.bundle.min'
 
 const EditProfile = props => {
-  const { user } = props
+  const { currentUser } = props
   const [errors, setErrors] = useState({})
-
-  console.log(props)
+  const [user, setUser] = useState(currentUser)
 
   const onChange = event => {
     setErrors({})
+    setUser({ ...user, [event.target.name]: event.target.value })
   }
 
   const onSubmit = event => {
@@ -59,7 +57,7 @@ const EditProfile = props => {
                 className="form-control"
                 required
                 onChange={onChange}
-                value={user}
+                value={user.email}
               />
               {errors.email ? <div className="form-field-error">{errors.email}</div> : null}
             </div>
@@ -70,6 +68,7 @@ const EditProfile = props => {
                 name="username"
                 className="form-control"
                 required
+                value={user.username}
                 onChange={onChange}
               />
               {errors.username ? <div className="form-field-error">{errors.username}</div> : null}

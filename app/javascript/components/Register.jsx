@@ -1,6 +1,4 @@
 import React, { useState } from 'react'
-import 'bootstrap/dist/css/bootstrap.min.css'
-import 'bootstrap/dist/js/bootstrap.bundle.min'
 
 function Register() {
   const [user, setUser] = useState({ email: '', username: '', password: '', password_repeat: '' })

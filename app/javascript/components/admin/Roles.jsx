@@ -5,8 +5,6 @@ function Roles(props) {
   const [role, setRole] = useState({ name: '' })
   const [response, setResponse] = useState({})
 
-  console.log(response)
-
   const onChange = event => {
     setRole({ ...role, [event.target.name]: event.target.value })
   }

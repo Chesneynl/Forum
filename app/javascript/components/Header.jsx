@@ -1,14 +1,22 @@
-import React, { useState, useEffect } from 'react'
-import 'bootstrap/dist/css/bootstrap.min.css'
-import 'bootstrap/dist/js/bootstrap.bundle.min'
+import React from 'react'
 import Link from '../components/ui/Link'
+import styled from 'styled-components'
 
-const Home = props => {
-  const { path, user } = props
+const Base = styled.div`
+  background: #fff;
+`
+
+const Container = styled.div`
+  margin: 0 auto;
+  max-width: 1024px;
+`
+
+function Header(props) {
+  const { path, user, userIsAdmin } = props
 
   return (
-    <>
-      <nav className="navbar navbar-expand-lg navbar-light bg-light">
+    <Base>
+      <Container>
         <a className="navbar-brand" href="/">
           Navbar
         </a>
@@ -30,7 +38,7 @@ const Home = props => {
           </ul>
           <form className="form-inline my-2 my-lg-0">
             <ul className="navbar-nav mr-auto">
-              <Link name="Admin panel" to="/admin/roles" currentPath={path} />
+              {userIsAdmin && <Link name="Admin panel" to="/admin/roles" currentPath={path} />}
               {!user ? (
                 <>
                   <Link name="Register" to="/register" currentPath={path} />
@@ -79,8 +87,8 @@ const Home = props => {
             </button>
           </form>
         </div>
-      </nav>
-    </>
+      </Container>
+    </Base>
   )
 }
-export default Home
+export default Header

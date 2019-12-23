@@ -1,4 +1,6 @@
 class Admin::RolesController < ApplicationController
+    before_action :authorize
+
     def index
       react_props
     end

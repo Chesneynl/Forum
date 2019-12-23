@@ -1,7 +1,4 @@
 import React from 'react'
-import 'bootstrap/dist/css/bootstrap.min.css'
-import 'bootstrap/dist/js/bootstrap.bundle.min'
-import '../../assets/stylesheets/application.css'
 
 function Post(props) {
   const { post } = props
@@ -12,8 +9,8 @@ function Post(props) {
       .replace(/&gt;/g, '>')
   }
 
-  const deleteRecipe = () => {
-    const url = `/api/v1/destroy/${id}`
+  const deletePost = () => {
+    const url = `/api/v1/destroy/${post.id}`
     const token = document.querySelector('meta[name="csrf-token"]').content
 
     fetch(url, {
@@ -59,7 +56,7 @@ function Post(props) {
             />
           </div>
           <div className="col-sm-12 col-lg-2">
-            <button type="button" className="btn btn-danger" onClick={deleteRecipe}>
+            <button type="button" className="btn btn-danger" onClick={deletePost}>
               Delete Recipe
             </button>
           </div>
