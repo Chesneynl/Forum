@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_12_27_153515) do
+ActiveRecord::Schema.define(version: 2020_01_03_142747) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -24,6 +24,7 @@ ActiveRecord::Schema.define(version: 2019_12_27_153515) do
     t.bigint "user_id"
     t.bigint "posts_categories_id"
     t.boolean "active"
+    t.string "attachment"
     t.index ["posts_categories_id"], name: "index_posts_on_posts_categories_id"
     t.index ["user_id"], name: "index_posts_on_user_id"
   end

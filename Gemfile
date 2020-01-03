@@ -31,7 +31,6 @@ gem 'bcrypt', '~> 3.1.7'
 gem "reform"  
 gem "reform-rails" 
 gem "slim-rails" 
-gem 'bootstrap', '~> 4.1.0'
 gem 'jquery-rails'
 gem 'pusher'
 gem 'figaro'
