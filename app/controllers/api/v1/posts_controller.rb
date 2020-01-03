@@ -30,7 +30,7 @@ class Api::V1::PostsController < ApplicationController
   private
 
   def post_params
-    params.permit(:name, :image, :description ).merge(user_id: current_user.id)
+    params.permit(:name, :image, :description, :active ).merge(user_id: current_user.id)
   end
 
   def post

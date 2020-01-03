@@ -10,19 +10,10 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_12_20_105833) do
+ActiveRecord::Schema.define(version: 2019_12_27_153515) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
-
-  create_table "assignments", force: :cascade do |t|
-    t.bigint "user_id"
-    t.bigint "role_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["role_id"], name: "index_assignments_on_role_id"
-    t.index ["user_id"], name: "index_assignments_on_user_id"
-  end
 
   create_table "posts", force: :cascade do |t|
     t.string "name", null: false
@@ -32,6 +23,7 @@ ActiveRecord::Schema.define(version: 2019_12_20_105833) do
     t.datetime "updated_at", null: false
     t.bigint "user_id"
     t.bigint "posts_categories_id"
+    t.boolean "active"
     t.index ["posts_categories_id"], name: "index_posts_on_posts_categories_id"
     t.index ["user_id"], name: "index_posts_on_user_id"
   end
@@ -59,6 +51,4 @@ ActiveRecord::Schema.define(version: 2019_12_20_105833) do
     t.index ["roles_id"], name: "index_users_on_roles_id"
   end
 
-  add_foreign_key "assignments", "roles"
-  add_foreign_key "assignments", "users"
 end

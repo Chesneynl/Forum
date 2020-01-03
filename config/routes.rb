@@ -11,7 +11,7 @@ Rails.application.routes.draw do
   end
 
   namespace :admin do
-    resources :posts, :roles
+    resources :posts
   end
   
   # account routes

@@ -7,7 +7,8 @@ class Admin::PostsController < ApplicationController
 
   def react_props
     @react_props = {
-        posts: Roles.all.order(created_at: :desc)
+      posts: Post.where(active: nil).order(created_at: :desc),
+      userIsAdmin: userIsAdmin?
     }
   end 
 
@@ -20,6 +21,12 @@ class Admin::PostsController < ApplicationController
     else
       render json: post.errors
     end
+  end
+
+  def update 
+    post = Post.find_by_id(params[:id])
+    post.active = 1
+    post.save
   end
 
   def show
