@@ -14,7 +14,6 @@ const Posts = props => {
             View post
           </a>
           <Button>View post</Button>
-          <Button>View post</Button>
         </div>
       </div>
     </div>
