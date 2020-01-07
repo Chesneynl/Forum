@@ -24,6 +24,6 @@ const Container = styled.a`
 const Button = props => {
   const { children } = props
 
-  return <Container href="#">{children}</Container>
+  return <Container>{children}</Container>
 }
 export default Button

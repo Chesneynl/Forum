@@ -35,7 +35,7 @@ function Post(props) {
   return (
     <div className="">
       <div className="hero position-relative d-flex align-items-center justify-content-center">
-        <img src={post.image} alt={`${post.name} image`} className="img-fluid position-absolute" />
+        <img src={`${post.attachment}`} />
         <div className="overlay bg-dark position-absolute" />
         <h1 className="display-4 position-relative text-white">{post.name}</h1>
       </div>
@@ -57,12 +57,12 @@ function Post(props) {
           </div>
           <div className="col-sm-12 col-lg-2">
             <button type="button" className="btn btn-danger" onClick={deletePost}>
-              Delete Recipe
+              Delete Post
             </button>
           </div>
         </div>
         <a href="/" className="btn btn-link">
-          Back to recipes
+          Back to posts
         </a>
       </div>
     </div>

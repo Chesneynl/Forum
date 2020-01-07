@@ -1,7 +1,6 @@
 class Api::V1::PostsController < ApplicationController
   def index
-    post = Post.all.order(created_at: :desc)
-    render json: post
+    react_props
   end
 
   def create
@@ -26,6 +25,12 @@ class Api::V1::PostsController < ApplicationController
     post&.destroy
     render json: { message: 'Post deleted!' }
   end
+
+  def react_props
+    @react_props = {
+      posts: Post.where(active: true).order(created_at: :desc)
+    }
+  end 
 
   private
 

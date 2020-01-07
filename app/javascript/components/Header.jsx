@@ -10,53 +10,84 @@ const Container = styled.div`
   max-width: 1024px;
 `
 
+const MenuItem = styled.li`
+  display: inline-block;
+  position: relative;
+  margin-left: 20px;
+  list-style: none;
+`
+
+const MenuItemLink = styled.a`
+  text-decoration: none;
+  color: #000;
+
+  &;hover {
+    color:red;
+  }
+`
+
+const Submenu = styled.ul`
+  display: none;
+  position: absolute;
+  top: 100%;
+  list-style: none;
+
+  ${MenuItem}:hover & {
+    display: block;
+  }
+`
+
+const SubmenuItem = styled.li``
+
 function Header(props) {
-  const { path, user, userIsAdmin } = props
+  const { user, userIsAdmin } = props
 
   return (
     <Base>
       <Container>
-        <a className="logo" href="/">
+        <siv className="logo" href="/">
           Navbar
-        </a>
-        <div>
-          <ul>
-            <li>
-              <a href="/categories">Categories</a>
-            </li>
-          </ul>
-          <form className="form-inline my-2 my-lg-0">
-            <ul>
-              {userIsAdmin && (
-                <li>
-                  <a href="/admin/roles">Admin panel</a>
-                </li>
-              )}
-              {!user ? (
-                <>
-                  <a href="/register">Register</a>
-                  <a href="/login">Login</a>
-                </>
-              ) : (
-                <>
-                  <li>
-                    <a href="#">{user.username}</a>
-                    <ul>
-                      <a href="/account/my-posts">My posts</a>
-                      <a href="/account/create-post">Create post</a>
-                      <a href="/account/edit-profile">Account settings</a>
-                    </ul>
-                  </li>
-                  <li>
-                    <a href="/logout">Logout</a>
-                  </li>
-                </>
-              )}
-            </ul>
-            <input type="search" placeholder="Search" />
-            <button type="submit">Search</button>
-          </form>
-        </div>
+        </siv>
+        <ul>
+          <MenuItem>
+            <MenuItemLink href="/categories">Categories</MenuItemLink>
+          </MenuItem>
+          {userIsAdmin && (
+            <MenuItem>
+              <MenuItemLink href="/admin/posts">Admin panel</MenuItemLink>
+            </MenuItem>
+          )}
+          {!user ? (
+            <>
+              <MenuItemLink href="/register">Register</MenuItemLink>
+              <MenuItemLink href="/login">Login</MenuItemLink>
+            </>
+          ) : (
+            <>
+              <MenuItem>
+                <MenuItemLink href="#">{user.username}</MenuItemLink>
+                <Submenu>
+                  <SubmenuItem>
+                    <MenuItemLink href="/account/my-posts">My posts</MenuItemLink>
+                  </SubmenuItem>
+                  <SubmenuItem>
+                    <MenuItemLink href="/account/create-post">Create post</MenuItemLink>
+                  </SubmenuItem>
+                  <SubmenuItem>
+                    <MenuItemLink href="/account/edit-profile">Account settings</MenuItemLink>
+                  </SubmenuItem>
+                </Submenu>
+              </MenuItem>
+              <MenuItem>
+                <MenuItemLink href="/logout">Logout</MenuItemLink>
+              </MenuItem>
+            </>
+          )}
+        </ul>
+        <form className="form-inline my-2 my-lg-0">
+          <input type="search" placeholder="Search" />
+          <button type="submit">Search</button>
+        </form>
       </Container>
     </Base>
   )

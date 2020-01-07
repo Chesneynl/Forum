@@ -35,6 +35,7 @@ gem 'jquery-rails'
 gem 'pusher'
 gem 'figaro'
 gem "pundit"  
+gem 'rack-cors'
 
 # Use ActiveStorage variant
 # gem 'mini_magick', '~> 4.8'

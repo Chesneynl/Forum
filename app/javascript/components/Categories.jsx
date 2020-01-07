@@ -1,9 +1,9 @@
 import React from 'react'
 
-const Posts = props => {
-  const { posts } = props
+const Categories = props => {
+  const { categories } = props
 
-  const allposts = posts.map((post, index) => (
+  const allcategories = categories.map((post, index) => (
     <div key={index} className="col-md-6 col-lg-4">
       <div className="card mb-4">
         <img src={`${post.attachment}`} />
@@ -19,7 +19,7 @@ const Posts = props => {
   const noEmpty = (
     <div className="vw-100 vh-50 d-flex align-items-center justify-content-center">
       <h4>
-        No posts yet. Why not <a href="/account/create-post">create one</a>
+        No categories yet. Why not <a href="/account/create-post">create one</a>
       </h4>
     </div>
   )
@@ -28,10 +28,10 @@ const Posts = props => {
     <>
       <div className="py-5">
         <main className="container">
-          <div className="row">{posts.length > 0 ? allposts : noEmpty}</div>
+          <div className="row">{categories.length > 0 ? allcategories : noEmpty}</div>
         </main>
       </div>
     </>
   )
 }
-export default Posts
+export default Categories

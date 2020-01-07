@@ -10,9 +10,13 @@ Rails.application.routes.draw do
     end
   end
 
+  # admin
   namespace :admin do
     resources :posts
   end
+
+  # categories
+  get 'categories' => 'category#index'
   
   # account routes
   get 'account/edit-profile', to: 'account#edit'
@@ -30,7 +34,7 @@ Rails.application.routes.draw do
   post "register", to: "register#create"
 
 
-  get '*path' => 'home#index'
+  get '*path' => 'home#page_not_found'
   root 'home#index'
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 end

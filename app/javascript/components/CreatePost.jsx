@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 
-function CreatePost(props) {
+function CreatePost() {
   const [post, setPost] = useState({ name: '', description: '' })
   const [attachment, setAttachment] = useState()
 
@@ -29,12 +29,7 @@ function CreatePost(props) {
     const url = '/api/v1/posts/create'
     const { name, description } = post
 
-    console.log(name.length)
-    console.log(description.length)
-    console.log(attachment)
-
     if (name.length == 0 || description.length == 0) return
-    console.log('binnen')
 
     const body = {
       name,
