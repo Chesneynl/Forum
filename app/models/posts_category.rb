@@ -1,4 +1,4 @@
-class PostsCategories < ApplicationRecord
+class PostsCategory < ApplicationRecord
   validates :name, presence: true
 
   has_many :posts

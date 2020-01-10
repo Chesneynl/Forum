@@ -1,4 +1,5 @@
 import React from 'react'
+import Container from './ui/Container'
 
 function Post(props) {
   const { post } = props
@@ -33,13 +34,13 @@ function Post(props) {
   const postDescription = addHtmlEntities(post.description)
 
   return (
-    <div className="">
+    <>
       <div className="hero position-relative d-flex align-items-center justify-content-center">
         <img src={`${post.attachment}`} />
         <div className="overlay bg-dark position-absolute" />
         <h1 className="display-4 position-relative text-white">{post.name}</h1>
       </div>
-      <div className="container py-5">
+      <Container>
         <div className="row">
           <div className="col-sm-12 col-lg-3">
             <ul className="list-group">
@@ -64,8 +65,8 @@ function Post(props) {
         <a href="/" className="btn btn-link">
           Back to posts
         </a>
-      </div>
-    </div>
+      </Container>
+    </>
   )
 }
 

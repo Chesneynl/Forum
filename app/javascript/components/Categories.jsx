@@ -3,14 +3,14 @@ import React from 'react'
 const Categories = props => {
   const { categories } = props
 
-  const allcategories = categories.map((post, index) => (
+  const allcategories = categories.map((category, index) => (
     <div key={index} className="col-md-6 col-lg-4">
       <div className="card mb-4">
-        <img src={`${post.attachment}`} />
+        <img src={`${category.attachment}`} />
         <div className="card-body">
-          <h5 className="card-title">{post.name}</h5>
-          <a href={`/post/${post.id}`} className="btn custom-button">
-            View post
+          <h5 className="card-title">{category.name}</h5>
+          <a href={`/category/${category.id}`} className="btn custom-button">
+            View category
           </a>
         </div>
       </div>
@@ -19,7 +19,7 @@ const Categories = props => {
   const noEmpty = (
     <div className="vw-100 vh-50 d-flex align-items-center justify-content-center">
       <h4>
-        No categories yet. Why not <a href="/account/create-post">create one</a>
+        No categories yet. Why not <a href="/account/create-category">create one</a>
       </h4>
     </div>
   )

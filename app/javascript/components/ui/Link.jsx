@@ -1,12 +1,17 @@
 import React from 'react'
+import styled from 'styled-components'
 
 const Link = props => {
   const { name, to } = props
 
+  const StyledLi = styled.li`
+    list-style: none;
+  `
+
   return (
-    <li className="nav-item">
+    <StyledLi className="nav-item">
       <a href={to}>{name}</a>
-    </li>
+    </StyledLi>
   )
 }
 export default Link

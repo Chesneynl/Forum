@@ -3,11 +3,16 @@ import styled from 'styled-components'
 
 const Base = styled.div`
   background: #fff;
+  padding: 20px 0;
+  box-shadow: 0 4px 2px -2px #cacaca;
+  margin-bottom: 50px;
 `
 
 const Container = styled.div`
   margin: 0 auto;
   max-width: 1024px;
+  display: flex;
+  justify-content: space-between;
 `
 
 const MenuItem = styled.li`
@@ -15,6 +20,11 @@ const MenuItem = styled.li`
   position: relative;
   margin-left: 20px;
   list-style: none;
+  padding-bottom: 5px;
+
+  &:hover {
+    border-bottom: 2px solid red;
+  }
 `
 
 const MenuItemLink = styled.a`
@@ -31,6 +41,11 @@ const Submenu = styled.ul`
   position: absolute;
   top: 100%;
   list-style: none;
+  z-index: 100;
+  white-space: nowrap;
+  background: #fff;
+  padding-top: 10px;
+  padding-bottom: 20px;
 
   ${MenuItem}:hover & {
     display: block;
@@ -45,9 +60,9 @@ function Header(props) {
   return (
     <Base>
       <Container>
-        <siv className="logo" href="/">
-          Navbar
-        </siv>
+        <a className="logo" href="/">
+          Logo
+        </a>
         <ul>
           <MenuItem>
             <MenuItemLink href="/categories">Categories</MenuItemLink>

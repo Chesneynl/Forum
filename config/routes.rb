@@ -13,10 +13,13 @@ Rails.application.routes.draw do
   # admin
   namespace :admin do
     resources :posts
+    get 'create-category' => 'category#index'
+    post 'categories' => 'category#create'
   end
 
   # categories
   get 'categories' => 'category#index'
+  get 'category/:id' => 'category#show'
   
   # account routes
   get 'account/edit-profile', to: 'account#edit'

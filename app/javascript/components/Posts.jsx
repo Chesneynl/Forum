@@ -4,7 +4,7 @@ const Posts = props => {
   const { posts } = props
 
   const allposts = posts.map((post, index) => (
-    <div key={index} className="col-md-6 col-lg-4">
+    <div key={index}>
       <div className="card mb-4">
         <img src={`${post.attachment}`} />
         <div className="card-body">
@@ -27,9 +27,7 @@ const Posts = props => {
   return (
     <>
       <div className="py-5">
-        <main className="container">
-          <div className="row">{posts.length > 0 ? allposts : noEmpty}</div>
-        </main>
+        <main className="container">{posts.length > 0 ? allposts : noEmpty}</main>
       </div>
     </>
   )
