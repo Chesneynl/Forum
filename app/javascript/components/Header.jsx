@@ -1,5 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
+import Container from './ui/Container'
 
 const Base = styled.div`
   background: #fff;
@@ -8,11 +9,18 @@ const Base = styled.div`
   margin-bottom: 50px;
 `
 
-const Container = styled.div`
-  margin: 0 auto;
-  max-width: 1024px;
+const BaseTopBar = styled.div`
+  padding: 5px 0;
+  background-color: rgb(6, 174, 237);
+  text-align: right;
+  font-size: 14px;
+`
+
+const StyledContainer = styled.div`
   display: flex;
   justify-content: space-between;
+  margin: 0 auto;
+  max-width: 1024px;
 `
 
 const MenuItem = styled.li`
@@ -23,7 +31,7 @@ const MenuItem = styled.li`
   padding-bottom: 5px;
 
   &:hover {
-    border-bottom: 2px solid red;
+    color: #06aeed;
   }
 `
 
@@ -32,7 +40,7 @@ const MenuItemLink = styled.a`
   color: #000;
 
   &;hover {
-    color:red;
+    color: red;
   }
 `
 
@@ -58,15 +66,9 @@ function Header(props) {
   const { user, userIsAdmin } = props
 
   return (
-    <Base>
-      <Container>
-        <a className="logo" href="/">
-          Logo
-        </a>
-        <ul>
-          <MenuItem>
-            <MenuItemLink href="/categories">Categories</MenuItemLink>
-          </MenuItem>
+    <>
+      <BaseTopBar>
+        <Container>
           {userIsAdmin && (
             <MenuItem>
               <MenuItemLink href="/admin/posts">Admin panel</MenuItemLink>
@@ -98,13 +100,25 @@ function Header(props) {
               </MenuItem>
             </>
           )}
-        </ul>
-        <form className="form-inline my-2 my-lg-0">
-          <input type="search" placeholder="Search" />
-          <button type="submit">Search</button>
-        </form>
-      </Container>
-    </Base>
+        </Container>
+      </BaseTopBar>
+      <Base>
+        <StyledContainer>
+          <a className="logo" href="/">
+            Logo
+          </a>
+          <ul>
+            <MenuItem>
+              <MenuItemLink href="/categories">Categories</MenuItemLink>
+            </MenuItem>
+          </ul>
+          <form className="form-inline my-2 my-lg-0">
+            <input type="search" placeholder="Search" />
+            <button type="submit">Search</button>
+          </form>
+        </StyledContainer>
+      </Base>
+    </>
   )
 }
 export default Header

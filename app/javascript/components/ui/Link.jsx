@@ -8,9 +8,18 @@ const Link = props => {
     list-style: none;
   `
 
+  const Link = styled.a`
+    text-decoration: none;
+    color: #000;
+
+    &:hover {
+      color: #06aeed;
+    }
+  `
+
   return (
-    <StyledLi className="nav-item">
-      <a href={to}>{name}</a>
+    <StyledLi>
+      <Link href={to}>{name}</Link>
     </StyledLi>
   )
 }

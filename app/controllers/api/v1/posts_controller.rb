@@ -1,6 +1,12 @@
 class Api::V1::PostsController < ApplicationController
   def index
-    react_props
+    post = Post.where(active: true)
+
+    if post
+      render json: post
+    else
+      render json: post.errors
+    end
   end
 
   def create

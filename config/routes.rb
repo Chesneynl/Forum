@@ -3,7 +3,7 @@ Rails.application.routes.draw do
   # posts
   namespace :api do
     namespace :v1 do
-      get 'posts/index'
+      get 'posts', to: 'posts#index'
       post 'posts/create'
       get 'show/:id', to: 'posts#show'
       delete 'destroy/:id', to: 'posts#destroy'
@@ -35,7 +35,6 @@ Rails.application.routes.draw do
   get "register", to: "register#index"
   post "login", to: "login#login"
   post "register", to: "register#create"
-
 
   get '*path' => 'home#page_not_found'
   root 'home#index'

@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 
-function CreatePost() {
+const CreatePost = props => {
+  const { categories } = props
   const [post, setPost] = useState({ name: '', description: '' })
   const [attachment, setAttachment] = useState()
 
@@ -34,7 +35,7 @@ function CreatePost() {
     const body = {
       name,
       attachment,
-      description: description.replace(/\n/g, '<br> <br>'),
+      description: description.replace(/\n/g, '<br> <br>').stripHtmlEntities(),
     }
 
     const token = document.querySelector('meta[name="csrf-token"]').content
@@ -56,6 +57,12 @@ function CreatePost() {
       .then(response => console.log(response))
       .catch(error => console.log(error.message))
   }
+
+  const allCategories = categories.map((category, index) => (
+    <option key={index} value={category.id}>
+      {category.name}
+    </option>
+  ))
 
   return (
     <div className="container mt-5">
@@ -79,6 +86,12 @@ function CreatePost() {
                 <option value="volvo">Image</option>
                 <option value="saab">Youtube URL</option>
                 <option value="mercedes">GIF</option>
+              </select>
+            </div>
+            <div className="form-group">
+              <label>Category</label>
+              <select name="post_type" className="form-control">
+                {allCategories}
               </select>
             </div>
             <div className="form-group">

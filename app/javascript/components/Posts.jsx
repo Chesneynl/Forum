@@ -1,22 +1,25 @@
-import React from 'react'
+import React, { useEffect } from 'react'
+import { useSelector, useDispatch } from 'react-redux'
+import { fetchPosts } from '../actions'
+import { createStore, applyMiddleware } from 'redux'
+import allRedcuer from '../reducers'
+import { Provider } from 'react-redux'
+import thunk from 'redux-thunk'
+import Container from './ui/Container'
+import LoadingSpinner from './ui/LoadingSpinner'
+import Link from './ui/Link'
+import styled from 'styled-components'
 
-const Posts = props => {
-  const { posts } = props
+const PostsContent = () => {
+  const posts = useSelector(state => state.posts)
+  const isloading = useSelector(state => state.isLoading)
+  const dispatch = useDispatch()
 
-  const allposts = posts.map((post, index) => (
-    <div key={index}>
-      <div className="card mb-4">
-        <img src={`${post.attachment}`} />
-        <div className="card-body">
-          <h5 className="card-title">{post.name}</h5>
-          <a href={`/post/${post.id}`} className="btn custom-button">
-            View post
-          </a>
-        </div>
-      </div>
-    </div>
-  ))
-  const noEmpty = (
+  useEffect(() => {
+    dispatch(fetchPosts())
+  }, [])
+
+  const onEmpty = (
     <div className="vw-100 vh-50 d-flex align-items-center justify-content-center">
       <h4>
         No posts yet. Why not <a href="/account/create-post">create one</a>
@@ -24,12 +27,48 @@ const Posts = props => {
     </div>
   )
 
+  const Post = styled.div`
+    padding-bottom: 10px;
+    margin-bottom: 10px;
+    border-bottom: 1px solid #06aeed;
+  `
+
+  const PostTitle = styled.div`
+    padding: 15px 0;
+    font-size: 24px;
+  `
+
   return (
     <>
-      <div className="py-5">
-        <main className="container">{posts.length > 0 ? allposts : noEmpty}</main>
+      <div>
+        <Container>
+          {isloading && <LoadingSpinner />}
+          {posts.length > 0
+            ? posts.map((post, index) => (
+                <Post key={index}>
+                  <PostTitle>
+                    <Link name={post.name} to={`/post/${post.id}`} />
+                  </PostTitle>
+                  <a href={`/post/${post.id}`}>
+                    <img src={`${post.attachment}`} />
+                  </a>
+                </Post>
+              ))
+            : onEmpty}
+        </Container>
       </div>
     </>
   )
 }
+
+const Posts = () => {
+  const store = createStore(allRedcuer, applyMiddleware(thunk))
+
+  return (
+    <Provider store={store}>
+      <PostsContent />
+    </Provider>
+  )
+}
+
 export default Posts
