@@ -11,7 +11,7 @@ const Base = styled.div`
 
 const BaseTopBar = styled.div`
   padding: 5px 0;
-  background-color: #f25c05;
+  background-color: #c0392b;
   text-align: right;
   font-size: 14px;
 `

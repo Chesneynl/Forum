@@ -1,9 +1,7 @@
 import React, { useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { fetchPosts } from '../../actions'
-import { Container } from '../ui/'
-import { LoadingSpinner } from '../ui/'
-import { Link } from '../ui/'
+import { Link, LoadingSpinner, Container } from '../ui/'
 import styled from 'styled-components'
 
 const Posts = props => {
