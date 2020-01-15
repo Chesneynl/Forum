@@ -6,8 +6,9 @@ const Base = styled.div`
   max-width: 1024px;
 `
 
-const Container = props => {
+export const Container = props => {
   const { children } = props
   return <Base>{children}</Base>
 }
+
 export default Container

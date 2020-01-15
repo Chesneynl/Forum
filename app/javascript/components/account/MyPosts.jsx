@@ -1,6 +1,6 @@
 import React from 'react'
 import Link from '../../components/ui/Link'
-import Posts from '../../components/Posts'
+import Posts from '../../components/Posts/Posts'
 
 function MyPosts(props) {
   const { posts, path } = props

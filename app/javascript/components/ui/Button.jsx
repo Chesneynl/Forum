@@ -21,9 +21,10 @@ const Container = styled.a`
   }
 `
 
-const Button = props => {
+export const Button = props => {
   const { children } = props
 
   return <Container>{children}</Container>
 }
+
 export default Button

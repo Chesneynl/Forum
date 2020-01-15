@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 
-const Link = props => {
+export const Link = props => {
   const { name, to } = props
 
   const StyledLi = styled.li`

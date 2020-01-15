@@ -2,7 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import LoadingSVG from '../../../assets/images/loading.svg'
 
-const LoadingSpinner = () => {
+export const LoadingSpinner = () => {
   const Container = styled.div`
     text-align: center;
   `
