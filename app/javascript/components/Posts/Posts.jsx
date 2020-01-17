@@ -1,11 +1,12 @@
 import React, { useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { fetchPosts } from '../../actions'
-import { Link, LoadingSpinner, Container } from '../ui/'
+import { fetchPosts, likePost, dislikePost } from '../../actions'
+import { Link, LoadingSpinner, Container, Button } from '../ui/'
 import styled from 'styled-components'
 
 const Posts = props => {
   const posts = useSelector(state => state.posts.items)
+  const likes = useSelector(state => state.likes)
   const isloading = useSelector(state => state.posts.isLoading)
   const dispatch = useDispatch()
 
@@ -14,7 +15,7 @@ const Posts = props => {
   }, [])
 
   const Post = styled.div`
-    background: ${props => props.theme.colors.primaryDark};
+    background-color: ${props => props.theme.colors.primary};
     padding-bottom: 10px;
     margin-bottom: 10px;
     border-bottom: 1px solid #06aeed;
@@ -46,6 +47,24 @@ const Posts = props => {
                 <a href={`/post/${post.id}`}>
                   <img src={`${post.attachment}`} />
                 </a>
+                <Button
+                  active={false}
+                  defaultIcon={'fa fa-thumbs-up'}
+                  successIcon={'fa fa-heart'}
+                  type="primary"
+                  onClick={() => dispatch(likePost(post.id))}
+                >
+                  Like
+                </Button>
+                <Button
+                  active={false}
+                  type="secondary"
+                  defaultIcon={'fa fa-thumbs-down'}
+                  successIcon={'fa fa-sad-tear'}
+                  onClick={() => dispatch(dislikePost(post.id))}
+                >
+                  Dislike
+                </Button>
               </Post>
             ))
           : onEmpty}

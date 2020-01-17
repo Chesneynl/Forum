@@ -31,7 +31,9 @@ const Post = props => {
             />
           </div>
           <div className="col-sm-12 col-lg-2">
-            <Button onClick={() => dispatch(deletePost(post.id))}>Delete Post</Button>
+            <Button active={true} onClick={() => dispatch(deletePost(post.id))}>
+              Delete Post
+            </Button>
           </div>
         </div>
         <a href="/" className="btn btn-link">

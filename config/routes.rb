@@ -17,24 +17,27 @@ Rails.application.routes.draw do
     post 'categories' => 'category#create'
   end
 
-  # categories
-  get 'categories' => 'category#index'
-  get 'category/:id' => 'category#show'
-  
-  # account routes
-  get 'account/edit-profile', to: 'account#edit'
-  get 'account/my-posts', to: 'account#index'
-  get 'account/create-post' => 'post#create'
+  #likes / dislikes
+  post "like", to: "like#like"
+  post "dislike", to: "like#dislike"
+  get "likes", to: "like#get_user_likes"
 
   # post
   get 'post/:id', to: 'post#index'
+  
+  # categories
+  get 'categories' => 'category#index'
+  get 'category/:id' => 'category#show'
 
-  # login / register / logout
-  get 'login' => 'login#index'
-  get 'logout' => 'logout#index'
-  get "register", to: "register#index"
+  # account
+  get 'account/edit-profile', to: 'account#edit'
+  get 'account/my-posts', to: 'account#index'
+  get 'account/create-post' => 'post#create'
+  get 'login' => 'account'
+  get 'logout' => 'account'
+  get "register", to: "account#register"
   post "login", to: "login#login"
-  post "register", to: "register#create"
+  post "register", to: "account#register_user"
 
   get '*path' => 'home#page_not_found'
   root 'home#index'

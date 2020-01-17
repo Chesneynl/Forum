@@ -1,12 +1,15 @@
 const themeColors = {
-  navyDark: 'red',
-  navy: '#1D3A8F', // Old 'blue'
-  navyLight: '#3250A8',
+  primary: '#eee',
+  warning: '#c0392b',
+  warningDark: '#a53125',
+  success: '#2bc066',
+  successDark: '#26a258',
 }
 
 export const defaultTheme = {
   typography: {
     fontFamily: '"Roboto", "Open Sans", Calibri, Helvetica, Tahoma, sans-serif',
+    buttonFontFamily: '"Alata" sans-serif',
 
     fontSizes: {
       small: '13px',
@@ -38,14 +41,14 @@ export const defaultTheme = {
   },
 
   buttonColors: {
-    primaryBackground: themeColors.orange,
-    primaryBackgroundHover: '#ffac28',
+    delete: themeColors.warning,
+    deleteDark: themeColors.warningDark,
+    success: themeColors.success,
+    successDark: themeColors.successDark,
   },
 
   colors: {
-    primaryDark: themeColors.navyDark,
-    primary: themeColors.navy,
-    primaryLight: themeColors.navyLight,
+    primary: themeColors.primary,
   },
 
   iconSizes: {

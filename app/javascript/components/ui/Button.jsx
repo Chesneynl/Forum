@@ -1,28 +1,53 @@
 import React from 'react'
 import styled from 'styled-components'
 
-removeSuccess = ->
-    $('.button').removeClass 'success'
-
-$(document).ready ->
-    $('.button').click ->
-        $(@).addClass 'success'
-        setTimeout removeSuccess, 3000
-
-const Container = styled.a`
+const Container = styled.a.attrs(({}) => ({
+  className: '',
+}))`
+font-family:  ${props => props.theme.typography.buttonFontFamily};
     display: block;
-    background-color: #c0392b;
     width: 300px;
-    height: 100px;
-    line-height: 100px;
-    margin: auto;
+    height: 75px;
+    line-height: 75px; 
+    display:inline-block;
     color: #fff;
     position: relative;
     cursor: pointer;
     overflow: hidden;
     border-radius: 5px;
-    box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.3);
+    box-shadow: ${props => props.shadow};
     transition: all 0.25s cubic-bezier(0.31, -0.105, 0.43, 1.4);;
+
+    &.primary {
+      border:1px solid ${props => props.theme.buttonColors.success};
+      background-color: ${props => props.theme.buttonColors.success};
+
+      &:hover {
+        background-color: ${props => props.theme.buttonColors.success};
+      }
+      
+
+      span {
+        &:after {
+          background-color: ${props => props.theme.buttonColors.successDark};
+        }
+      }
+    }
+
+    &.secondary {
+      border:1px solid ${props => props.theme.buttonColors.delete};
+      background-color: ${props => props.theme.buttonColors.delete};
+
+      &:hover {
+        background-color: ${props => props.theme.buttonColors.delete};
+      }
+      
+      span {
+        &:after {
+          background-color: ${props => props.theme.buttonColors.deleteDark};
+        }
+      }
+    }
 
     span,
     .icon {
@@ -43,7 +68,6 @@ const Container = styled.a`
 
       &:after {
         content: '';
-        background-color: #a53125;
         width: 2px;
         height: 70%;
         position: absolute;
@@ -63,11 +87,11 @@ const Container = styled.a`
         transition: all 0.25s cubic-bezier(0.31, -0.105, 0.43, 1.4);, height #{$speed} ease;
       }
 
-      .fa-remove {
+      .icon-1 {
         height: 36px;
       }
 
-      .fa-check {
+      .icon-2 {
         display: none;
       }
     }
@@ -92,11 +116,11 @@ const Container = styled.a`
       background-color: #27ae60;
 
       .icon {
-        .fa-remove {
+        .icon-1 {
           display: none;
         }
 
-        .fa-check {
+        .icon-2 {
           display: inline-block;
         }
       }
@@ -105,7 +129,7 @@ const Container = styled.a`
     &:hover {
       opacity: 0.9;
 
-      .icon .fa-remove {
+      .icon .icon-1 {
         height: 46px;
       }
     }
@@ -116,14 +140,14 @@ const Container = styled.a`
 `
 
 export const Button = props => {
-  const { children } = props
+  const { children, active, onClick, type, defaultIcon, successIcon } = props
 
   return (
-    <Container>
+    <Container className={active ? type + ' success' : type} onClick={onClick}>
       <span>{children}</span>
-      <div class="icon">
-        <i class="fa fa-remove">X</i>
-        <i class="fa fa-check">X</i>
+      <div className="icon">
+        <i className={defaultIcon ? 'icon-1 ' + defaultIcon : 'fa icon-1 fa-remove'}></i>
+        <i className={successIcon ? 'icon-2 ' + successIcon : 'fa icon-2 fa-check'}></i>
       </div>
     </Container>
   )
