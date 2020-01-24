@@ -1,18 +1,21 @@
 import React, { useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { fetchPosts, likePost, dislikePost } from '../../actions'
+import { fetchPosts, fetchLikes, likePost, dislikePost } from '../../actions'
 import { Link, LoadingSpinner, Container, Button } from '../ui/'
 import styled from 'styled-components'
 
 const Posts = props => {
   const posts = useSelector(state => state.posts.items)
-  const likes = useSelector(state => state.likes)
+  const likes = useSelector(state => state.likes.items)
   const isloading = useSelector(state => state.posts.isLoading)
   const dispatch = useDispatch()
+  const csrfToken = document.querySelector('meta[name=csrf-token]').content
 
   useEffect(() => {
     dispatch(fetchPosts())
+    dispatch(fetchLikes())
   }, [])
+  console.log(likes)
 
   const Post = styled.div`
     background-color: ${props => props.theme.colors.primary};
@@ -39,34 +42,41 @@ const Posts = props => {
       <Container>
         {isloading && <LoadingSpinner />}
         {posts.length > 0
-          ? posts.map((post, index) => (
-              <Post key={index}>
-                <PostTitle>
-                  <Link name={post.name} to={`/post/${post.id}`} />
-                </PostTitle>
-                <a href={`/post/${post.id}`}>
-                  <img src={`${post.attachment}`} />
-                </a>
-                <Button
-                  active={false}
-                  defaultIcon={'fa fa-thumbs-up'}
-                  successIcon={'fa fa-heart'}
-                  type="primary"
-                  onClick={() => dispatch(likePost(post.id))}
-                >
-                  Like
-                </Button>
-                <Button
-                  active={false}
-                  type="secondary"
-                  defaultIcon={'fa fa-thumbs-down'}
-                  successIcon={'fa fa-sad-tear'}
-                  onClick={() => dispatch(dislikePost(post.id))}
-                >
-                  Dislike
-                </Button>
-              </Post>
-            ))
+          ? posts.map((post, index) => {
+              const liked = likes.some(like => like.liekd === true)
+              // const disLiked = likes.find(like => like.disliked === true)
+
+              const disLiked = false
+
+              return (
+                <Post key={index}>
+                  <PostTitle>
+                    <Link name={post.name} to={`/post/${post.id}`} />
+                  </PostTitle>
+                  <a href={`/post/${post.id}`}>
+                    <img src={`${post.attachment}`} />
+                  </a>
+                  <Button
+                    active={liked}
+                    defaultIcon={'fa fa-thumbs-up'}
+                    successIcon={'fa fa-heart'}
+                    type="primary"
+                    onClick={() => dispatch(likePost(post.id, csrfToken))}
+                  >
+                    Like
+                  </Button>
+                  <Button
+                    active={disLiked}
+                    type="secondary"
+                    defaultIcon={'fa fa-thumbs-down'}
+                    successIcon={'fa fa-sad-tear'}
+                    onClick={() => dispatch(dislikePost(post.id))}
+                  >
+                    Dislike
+                  </Button>
+                </Post>
+              )
+            })
           : onEmpty}
       </Container>
     </>

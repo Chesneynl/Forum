@@ -20,7 +20,7 @@ Rails.application.routes.draw do
   #likes / dislikes
   post "like", to: "like#like"
   post "dislike", to: "like#dislike"
-  get "likes", to: "like#get_user_likes"
+  get 'likes-and-dislikes', to: "like#index" 
 
   # post
   get 'post/:id', to: 'post#index'
@@ -32,7 +32,7 @@ Rails.application.routes.draw do
   # account
   get 'account/edit-profile', to: 'account#edit'
   get 'account/my-posts', to: 'account#index'
-  get 'account/create-post' => 'post#create'
+  get 'account/create-post', to: 'post#create'
   get 'login' => 'account'
   get 'logout' => 'account'
   get "register", to: "account#register"

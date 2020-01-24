@@ -1,9 +1,12 @@
 import React, { useState } from 'react'
+import { createPost } from '../../actions'
+import { useDispatch } from 'react-redux'
 
 const CreatePost = props => {
   const { categories } = props
   const [post, setPost] = useState({ name: '', description: '' })
   const [attachment, setAttachment] = useState()
+  const dispatch = useDispatch()
 
   const stripHtmlEntities = str => {
     return String(str)
@@ -32,6 +35,8 @@ const CreatePost = props => {
 
     if (name.length == 0 || description.length == 0) return
 
+    dispatch(createPost(name, description, posts_categories_id))
+
     const body = {
       name,
       attachment,
@@ -39,23 +44,26 @@ const CreatePost = props => {
     }
 
     const token = document.querySelector('meta[name="csrf-token"]').content
-    fetch(url, {
-      method: 'POST',
-      headers: {
-        'X-CSRF-Token': token,
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(body),
-    })
-      .then(response => {
-        if (response.ok) {
-          return response.json()
-        }
 
-        throw new Error('Network response was not ok.')
-      })
-      .then(response => console.log(response))
-      .catch(error => console.log(error.message))
+    dispatch(createPost('post_name', 'post_description', 1))
+
+    // fetch(url, {
+    //   method: 'POST',
+    //   headers: {
+    //     'X-CSRF-Token': token,
+    //     'Content-Type': 'application/json',
+    //   },
+    //   body: JSON.stringify(body),
+    // })
+    //   .then(response => {
+    //     if (response.ok) {
+    //       return response.json()
+    //     }
+
+    //     throw new Error('Network response was not ok.')
+    //   })
+    //   .then(response => console.log(response))
+    //   .catch(error => console.log(error.message))
   }
 
   const allCategories = categories.map((category, index) => (
