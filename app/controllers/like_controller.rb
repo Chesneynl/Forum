@@ -1,5 +1,6 @@
 
 class LikeController < ApplicationController  
+  skip_before_action :verify_authenticity_token
 
   def index
     likes = UserLikesDislikes.where(user_id: session[:user_id])
@@ -7,24 +8,15 @@ class LikeController < ApplicationController
     render json: likes
   end
 
-  def like
-    like = UserLikesDislikes.create(like_params)
+  def like_dislike
+    existing_like_dislike = UserLikesDislikes.where(like_params.slice(:post_id, :user_id)).exists?
 
-    if like
-      render json: {success: like}
-    else 
-      render json: {success: like.errors}
-    end
-  end
-
-  def dislike
-    like = UserLikesDislikes.first_or_create!(like_params)
-
-    if like
-      like.update_all(liked: false, disliked: true)
-      render json: like
+    if !existing_like_dislike
+      like_dislike = UserLikesDislikes.create(like_params)
+      render json: {success: 'created'}
     else
-      render json: like.errors
+      like_dislike = UserLikesDislikes.update(like_params)
+      render json: {success: 'updated'}
     end
   end
 

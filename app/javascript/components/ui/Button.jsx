@@ -113,7 +113,6 @@ font-family:  ${props => props.theme.typography.buttonFontFamily};
     }
 
     &.success {
-      background-color: #27ae60;
 
       .icon {
         .icon-1 {

@@ -18,8 +18,7 @@ Rails.application.routes.draw do
   end
 
   #likes / dislikes
-  post "like", to: "like#like"
-  post "dislike", to: "like#dislike"
+  post "like-dislike", to: "like#like_dislike"
   get 'likes-and-dislikes', to: "like#index" 
 
   # post

@@ -15,7 +15,6 @@ const Posts = props => {
     dispatch(fetchPosts())
     dispatch(fetchLikes())
   }, [])
-  console.log(likes)
 
   const Post = styled.div`
     background-color: ${props => props.theme.colors.primary};
@@ -43,10 +42,8 @@ const Posts = props => {
         {isloading && <LoadingSpinner />}
         {posts.length > 0
           ? posts.map((post, index) => {
-              const liked = likes.some(like => like.liekd === true)
-              // const disLiked = likes.find(like => like.disliked === true)
-
-              const disLiked = false
+              const liked = likes.some(like => like.liked === true)
+              const disLiked = likes.some(like => like.disliked === true)
 
               return (
                 <Post key={index}>
@@ -59,7 +56,7 @@ const Posts = props => {
                   <Button
                     active={liked}
                     defaultIcon={'fa fa-thumbs-up'}
-                    successIcon={'fa fa-heart'}
+                    successIcon={'fa fa-thumbs-up'}
                     type="primary"
                     onClick={() => dispatch(likePost(post.id, csrfToken))}
                   >
@@ -69,7 +66,7 @@ const Posts = props => {
                     active={disLiked}
                     type="secondary"
                     defaultIcon={'fa fa-thumbs-down'}
-                    successIcon={'fa fa-sad-tear'}
+                    successIcon={'fa fa-thumbs-down'}
                     onClick={() => dispatch(dislikePost(post.id))}
                   >
                     Dislike

@@ -36,23 +36,6 @@ export function fetchPosts() {
   }
 }
 
-export function fetchLikes() {
-  return async function(dispatch) {
-    return fetch('/likes-and-dislikes')
-      .then(response => {
-        if (response.ok) {
-          return response.json()
-        }
-
-        throw new Error('Network response was not ok.')
-      })
-      .then(function(json) {
-        console.log(json)
-        dispatch(setLikes(json))
-      })
-  }
-}
-
 export function deletePost(id) {
   return async function(dispatch) {
     return fetch('/api/v1/destroy/' + id, { method: 'DELETE' })
@@ -86,7 +69,6 @@ export async function createPost(name, description, categoryId) {
       }),
     }
     const response = await fetch('/api/v1/posts/create', params)
-    console.log(response)
     return await response.json()
   } catch (error) {
     this.handleError(error)
@@ -123,6 +105,32 @@ export async function createPost(name, description, categoryId) {
 //   }
 // }
 
+// export function fetchLikes() {
+//   return async function(dispatch) {
+//     return await fetch('/likes-and-dislikes')
+//       .then(response => {
+//         if (response.ok) {
+//           return response.json()
+//         }
+
+//         throw new Error('Network response was not ok.')
+//       })
+//       .then(function(json) {
+//         dispatch(setLikes(json))
+//       })
+//   }
+// }
+
+export function fetchLikes() {
+  return async function(dispatch) {
+    try {
+      const response = await fetch('/likes-and-dislikes')
+      const likes = await response.json()
+      dispatch(setLikes(likes))
+    } catch (error) {}
+  }
+}
+
 export function likePost(id, csrfToken) {
   return async function(dispatch) {
     try {
@@ -140,7 +148,9 @@ export function likePost(id, csrfToken) {
           disliked: false,
         }),
       }
-      const response = await fetch('/like', params)
+      const response = await fetch('/like-dislike', params)
+      fetchLikes()
+
       return response.ok
     } catch (error) {}
   }
@@ -163,7 +173,8 @@ export function dislikePost(id, csrfToken) {
           disliked: true,
         }),
       }
-      const response = await fetch('/dislike', params)
+      const response = await fetch('/like-dislike', params)
+      fetchLikes()
       return response.ok
     } catch (error) {}
   }
