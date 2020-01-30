@@ -19,24 +19,10 @@ class Api::V1::PostsController < ApplicationController
     end
   end
 
-  def show
-    if post
-      render json: post
-    else
-      render json: post.errors
-    end
-  end
-
   def destroy
     post&.destroy
     render json: { message: 'Post deleted!' }
   end
-
-  def react_props
-    @react_props = {
-      posts: Post.where(active: true).order(created_at: :desc)
-    }
-  end 
 
   private
 

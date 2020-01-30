@@ -44,7 +44,6 @@ const CheckPosts = props => {
             View post
           </a>
           <div onClick={() => setPostActive(post.id)}>Set active post</div>
-          <Button onClick={() => setPostActive(post.id)}>Set active post</Button>
           {post.active && 'dit is een active post'}
         </div>
       </div>

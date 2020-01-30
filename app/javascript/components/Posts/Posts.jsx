@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { fetchPosts, fetchLikes, likePost, dislikePost } from '../../actions'
+import { fetchPosts, fetchLikes, likePost, dislikePost } from '../../actions/thunks'
 import { Link, LoadingSpinner, Container, Button } from '../ui/'
 import styled from 'styled-components'
 
@@ -42,8 +42,10 @@ const Posts = props => {
         {isloading && <LoadingSpinner />}
         {posts.length > 0
           ? posts.map((post, index) => {
-              const liked = likes.some(like => like.liked === true)
-              const disLiked = likes.some(like => like.disliked === true)
+              const liked = likes.some(like => like.liked === true && like.post_id === post.id)
+              const disLiked = likes.some(
+                like => like.disliked === true && like.post_id === post.id,
+              )
 
               return (
                 <Post key={index}>

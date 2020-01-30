@@ -5,7 +5,6 @@ Rails.application.routes.draw do
     namespace :v1 do
       get 'posts', to: 'posts#index'
       post 'posts/create'
-      get 'show/:id', to: 'posts#show'
       delete 'destroy/:id', to: 'posts#destroy'
     end
   end

@@ -1,6 +1,8 @@
 class CategoryController < ApplicationController
     def index
-      react_props
+      categories = PostsCategory.all
+
+      render json: categories
     end
 
     def show

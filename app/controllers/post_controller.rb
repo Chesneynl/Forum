@@ -7,10 +7,13 @@ class PostController < ApplicationController
     
   end
 
+  def show 
+
+  end
+
   def react_props
     @react_props = {
-      post: Post.find(params[:id]),
-      categories: PostsCategories.all
+      post: Post.find(params[:id])
     }
   end 
 end  

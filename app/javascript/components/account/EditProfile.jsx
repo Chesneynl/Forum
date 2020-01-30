@@ -93,7 +93,7 @@ const EditProfile = props => {
                 onChange={onChange}
               />
               {errors.password ? <div className="form-field-error">{errors.password}</div> : null}
-              <small id="ingredientsHelp" className="form-text text-muted">
+              <small className="form-text text-muted">
                 Repeat your password to check for spelling errors
               </small>
             </div>

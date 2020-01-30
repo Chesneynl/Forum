@@ -1,18 +1,20 @@
-import React, { useState } from 'react'
-import { createPost } from '../../actions'
-import { useDispatch } from 'react-redux'
+import React, { useState, useEffect } from 'react'
+import { createPost } from '../../actions/thunks'
+import { useDispatch, useSelector } from 'react-redux'
+import { fetchCategories } from '../../actions/thunks'
 
-const CreatePost = props => {
-  const { categories } = props
-  const [post, setPost] = useState({ name: '', description: '' })
+const CreatePost = () => {
+  const categories = useSelector(state => state.posts.categories)
+  const postCreated = useSelector(state => state.posts.postCreated)
+  const [post, setPost] = useState({ name: '', description: '', posts_categories_id: null })
   const [attachment, setAttachment] = useState()
   const dispatch = useDispatch()
 
-  const stripHtmlEntities = str => {
-    return String(str)
-      .replace(/</g, '&lt;')
-      .replace(/>/g, '&gt;')
-  }
+  console.log(postCreated)
+
+  useEffect(() => {
+    dispatch(fetchCategories())
+  }, [])
 
   const onChange = event => {
     setPost({ ...post, [event.target.name]: event.target.value })
@@ -30,40 +32,29 @@ const CreatePost = props => {
 
   const onSubmit = event => {
     event.preventDefault()
-    const url = '/api/v1/posts/create'
-    const { name, description } = post
+    const { name, description, posts_categories_id } = post
 
-    if (name.length == 0 || description.length == 0) return
+    //if (name.length == 0 || description.length == 0) return
 
-    dispatch(createPost(name, description, posts_categories_id))
-
-    const body = {
-      name,
-      attachment,
-      description: description.replace(/\n/g, '<br> <br>').stripHtmlEntities(),
+    const stripHtmlEntities = str => {
+      return String(str)
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
     }
 
     const token = document.querySelector('meta[name="csrf-token"]').content
 
-    dispatch(createPost('post_name', 'post_description', 1))
+    const createdPost = dispatch(
+      createPost(
+        name,
+        parseInt(posts_categories_id),
+        attachment,
+        stripHtmlEntities(description),
+        token,
+      ),
+    )
 
-    // fetch(url, {
-    //   method: 'POST',
-    //   headers: {
-    //     'X-CSRF-Token': token,
-    //     'Content-Type': 'application/json',
-    //   },
-    //   body: JSON.stringify(body),
-    // })
-    //   .then(response => {
-    //     if (response.ok) {
-    //       return response.json()
-    //     }
-
-    //     throw new Error('Network response was not ok.')
-    //   })
-    //   .then(response => console.log(response))
-    //   .catch(error => console.log(error.message))
+    console.log(createdPost)
   }
 
   const allCategories = categories.map((category, index) => (
@@ -77,41 +68,50 @@ const CreatePost = props => {
       <div className="row">
         <div className="col-sm-12 col-lg-6 offset-lg-3">
           <h1 className="mb-5">Create a new post</h1>
-          <form onSubmit={onSubmit}>
-            <div className="form-group">
-              <label>Name</label>
-              <input
-                type="text"
-                name="name"
-                className="form-control"
-                required
-                onChange={onChange}
-              />
-            </div>
-            <div className="form-group">
-              <label>Type</label>
-              <select name="post_type" className="form-control">
-                <option value="volvo">Image</option>
-                <option value="saab">Youtube URL</option>
-                <option value="mercedes">GIF</option>
-              </select>
-            </div>
-            <div className="form-group">
-              <label>Category</label>
-              <select name="post_type" className="form-control">
-                {allCategories}
-              </select>
-            </div>
-            <div className="form-group">
-              <label>Image</label>
-              <input type="file" accept="image/*" name="attachment" onChange={onFileSelect}></input>
-            </div>
-            <label>Description</label>
-            <textarea className="form-control" name="description" rows="5" onChange={onChange} />
-            <button type="submit" className="btn custom-button mt-3">
-              Create Recipe
-            </button>
-          </form>
+          {!postCreated ? (
+            <form onSubmit={onSubmit}>
+              <div className="form-group">
+                <label>Name</label>
+                <input
+                  type="text"
+                  name="name"
+                  className="form-control"
+                  required
+                  onChange={onChange}
+                />
+              </div>
+              <div className="form-group">
+                <label>Type</label>
+                <select name="post_type" className="form-control">
+                  <option value="volvo">Image</option>
+                  <option value="saab">Youtube URL</option>
+                  <option value="mercedes">GIF</option>
+                </select>
+              </div>
+              <div className="form-group">
+                <label>Category</label>
+                <select name="posts_categories_id" className="form-control" onChange={onChange}>
+                  {allCategories}
+                </select>
+              </div>
+              <div className="form-group">
+                <label>Image</label>
+                <input
+                  type="file"
+                  accept="image/*"
+                  name="attachment"
+                  onChange={onFileSelect}
+                ></input>
+              </div>
+              <label>Description</label>
+              <textarea className="form-control" name="description" rows="5" onChange={onChange} />
+              <button type="submit" className="btn custom-button mt-3">
+                Create Recipe
+              </button>
+            </form>
+          ) : (
+            <>Post has been created.</>
+          )}
         </div>
       </div>
     </div>
