@@ -1,7 +1,14 @@
-import React from 'react'
+import React, { useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { fetchCategories } from '../../actions/thunks'
 
-const Categories = props => {
-  const { categories } = props
+export function Categories() {
+  const categories = useSelector(state => state.posts.categories)
+  const dispatch = useDispatch()
+
+  useEffect(() => {
+    dispatch(fetchCategories())
+  }, [])
 
   const allcategories = categories.map((category, index) => (
     <div key={index} className="col-md-6 col-lg-4">
@@ -34,4 +41,3 @@ const Categories = props => {
     </>
   )
 }
-export default Categories

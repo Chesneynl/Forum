@@ -1,4 +1,4 @@
-export { Categories } from '../Posts'
-export { CreatePost } from '../Posts'
-export { Post } from '../Posts'
-export { Posts } from '../Posts'
+export { Categories } from './Categories'
+export { CreatePost } from './CreatePost'
+export { Post } from './Post'
+export { Posts } from './Posts'

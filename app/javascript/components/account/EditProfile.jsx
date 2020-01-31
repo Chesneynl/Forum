@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 
-const EditProfile = props => {
+export const EditProfile = props => {
   const { currentUser } = props
   const [errors, setErrors] = useState({})
   const [user, setUser] = useState(currentUser)
@@ -106,5 +106,3 @@ const EditProfile = props => {
     </div>
   )
 }
-
-export default EditProfile

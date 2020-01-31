@@ -6,38 +6,27 @@ Rails.application.routes.draw do
       get 'posts', to: 'posts#index'
       post 'posts/create'
       delete 'destroy/:id', to: 'posts#destroy'
+      get 'categories', to: 'posts#categories'
+      get 'category/:id', to: 'posts#posts_by_category'
+      post "like-dislike", to: "posts#like_dislike"
+      get 'likes-and-dislikes', to: "posts#get_likes" 
     end
   end
 
   # admin
   namespace :admin do
     resources :posts
-    get 'create-category' => 'category#index'
-    post 'categories' => 'category#create'
+    get 'create-category', to: 'category#index'
+    post 'create-category', to: 'category#create'
   end
-
-  #likes / dislikes
-  post "like-dislike", to: "like#like_dislike"
-  get 'likes-and-dislikes', to: "like#index" 
 
   # post
   get 'post/:id', to: 'post#index'
-  
-  # categories
-  get 'categories' => 'category#index'
-  get 'category/:id' => 'category#show'
 
   # account
-  get 'account/edit-profile', to: 'account#edit'
-  get 'account/my-posts', to: 'account#index'
-  get 'account/create-post', to: 'post#create'
-  get 'login' => 'account'
-  get 'logout' => 'account'
-  get "register", to: "account#register"
-  post "login", to: "login#login"
+  post "login", to: "account#login_user"
   post "register", to: "account#register_user"
 
-  get '*path' => 'home#page_not_found'
   root 'home#index'
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 end

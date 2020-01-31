@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
-import SideBar from './Sidebar'
+import { SideBar } from '../admin'
 import Container from '../ui/Container'
 
-function CreateCategory() {
+export function CreateCategory() {
   const [post, setPost] = useState({ name: '', description: '' })
   const [attachment, setAttachment] = useState()
 
@@ -36,7 +36,7 @@ function CreateCategory() {
     const body = {
       name,
       attachment,
-      description: description.replace(/\n/g, '<br> <br>'),
+      description: stripHtmlEntities(description.replace(/\n/g, '<br> <br>')),
     }
 
     const token = document.querySelector('meta[name="csrf-token"]').content
@@ -93,5 +93,3 @@ function CreateCategory() {
     </Container>
   )
 }
-
-export default CreateCategory

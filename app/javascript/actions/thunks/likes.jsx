@@ -3,7 +3,7 @@ import { setLikes } from '../../actions'
 export function fetchLikes() {
   return async function(dispatch) {
     try {
-      const response = await fetch('/likes-and-dislikes')
+      const response = await fetch('/api/v1/likes-and-dislikes')
       const likes = await response.json()
       dispatch(setLikes(likes))
     } catch (error) {}
@@ -27,7 +27,7 @@ export function likePost(id, csrfToken) {
           disliked: false,
         }),
       }
-      const response = await fetch('/like-dislike', params).then(response => {
+      const response = await fetch('/api/v1/like-dislike', params).then(response => {
         if (response.ok) {
           dispatch(fetchLikes())
         }
@@ -55,7 +55,7 @@ export function dislikePost(id, csrfToken) {
           disliked: true,
         }),
       }
-      const response = await fetch('/like-dislike', params).then(response => {
+      const response = await fetch('/api/v1/like-dislike', params).then(response => {
         if (response.ok) {
           dispatch(fetchLikes())
         }

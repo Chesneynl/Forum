@@ -25,10 +25,3 @@ export const setCategories = categories => {
     payload: categories,
   }
 }
-
-export const setPostCreated = value => {
-  return {
-    type: 'SET_POSTS_CREATED',
-    payload: value,
-  }
-}

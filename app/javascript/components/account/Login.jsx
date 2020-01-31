@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 
-function Login(props) {
+export function Login(props) {
   const [user, setUser] = useState({ email: '', password: '' })
   const [response, setRespoonse] = useState({})
 
@@ -91,5 +91,3 @@ function Login(props) {
     </div>
   )
 }
-
-export default Login

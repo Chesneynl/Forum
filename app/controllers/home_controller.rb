@@ -1,11 +1,9 @@
-class HomeController < ApplicationController
+class HomeController < ApplicationController  
   def index
-    react_props
+    
+  end  
+  
+  def page_not_found 
+    
   end
-
-  def react_props
-    @react_props = {
-      posts: Post.where(active: true).order(created_at: :desc)
-    }
-  end 
 end

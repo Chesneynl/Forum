@@ -1,16 +1,13 @@
 import React, { useState, useEffect } from 'react'
-import { createPost } from '../../actions/thunks'
 import { useDispatch, useSelector } from 'react-redux'
 import { fetchCategories } from '../../actions/thunks'
 
-const CreatePost = () => {
+export function CreatePost() {
   const categories = useSelector(state => state.posts.categories)
-  const postCreated = useSelector(state => state.posts.postCreated)
   const [post, setPost] = useState({ name: '', description: '', posts_categories_id: null })
+  const [postCreated, setPostCreated] = useState(false)
   const [attachment, setAttachment] = useState()
   const dispatch = useDispatch()
-
-  console.log(postCreated)
 
   useEffect(() => {
     dispatch(fetchCategories())
@@ -34,7 +31,7 @@ const CreatePost = () => {
     event.preventDefault()
     const { name, description, posts_categories_id } = post
 
-    //if (name.length == 0 || description.length == 0) return
+    if (name.length == 0 || description.length == 0 || posts_categories_id === null) return
 
     const stripHtmlEntities = str => {
       return String(str)
@@ -44,17 +41,27 @@ const CreatePost = () => {
 
     const token = document.querySelector('meta[name="csrf-token"]').content
 
-    const createdPost = dispatch(
-      createPost(
-        name,
-        parseInt(posts_categories_id),
-        attachment,
-        stripHtmlEntities(description),
-        token,
-      ),
-    )
-
-    console.log(createdPost)
+    const params = {
+      method: 'POST',
+      credentials: 'same-origin',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'X-CSRF-Token': token,
+      },
+      body: JSON.stringify({
+        name: name,
+        description: stripHtmlEntities(description),
+        attachment: attachment,
+        posts_categories_id: posts_categories_id,
+      }),
+    }
+    fetch('/api/v1/posts/create', params).then(response => {
+      if (response.ok) {
+        setPostCreated(true)
+        return response.ok
+      }
+    })
   }
 
   const allCategories = categories.map((category, index) => (
@@ -64,58 +71,41 @@ const CreatePost = () => {
   ))
 
   return (
-    <div className="container mt-5">
-      <div className="row">
-        <div className="col-sm-12 col-lg-6 offset-lg-3">
-          <h1 className="mb-5">Create a new post</h1>
-          {!postCreated ? (
-            <form onSubmit={onSubmit}>
-              <div className="form-group">
-                <label>Name</label>
-                <input
-                  type="text"
-                  name="name"
-                  className="form-control"
-                  required
-                  onChange={onChange}
-                />
-              </div>
-              <div className="form-group">
-                <label>Type</label>
-                <select name="post_type" className="form-control">
-                  <option value="volvo">Image</option>
-                  <option value="saab">Youtube URL</option>
-                  <option value="mercedes">GIF</option>
-                </select>
-              </div>
-              <div className="form-group">
-                <label>Category</label>
-                <select name="posts_categories_id" className="form-control" onChange={onChange}>
-                  {allCategories}
-                </select>
-              </div>
-              <div className="form-group">
-                <label>Image</label>
-                <input
-                  type="file"
-                  accept="image/*"
-                  name="attachment"
-                  onChange={onFileSelect}
-                ></input>
-              </div>
-              <label>Description</label>
-              <textarea className="form-control" name="description" rows="5" onChange={onChange} />
-              <button type="submit" className="btn custom-button mt-3">
-                Create Recipe
-              </button>
-            </form>
-          ) : (
-            <>Post has been created.</>
-          )}
-        </div>
-      </div>
-    </div>
+    <>
+      <h1 className="mb-5">Create a new post</h1>
+      {!postCreated ? (
+        <form onSubmit={onSubmit}>
+          <div className="form-group">
+            <label>Name</label>
+            <input type="text" name="name" className="form-control" required onChange={onChange} />
+          </div>
+          <div className="form-group">
+            <label>Type</label>
+            <select name="post_type" className="form-control">
+              <option value="volvo">Image</option>
+              <option value="saab">Youtube URL</option>
+              <option value="mercedes">GIF</option>
+            </select>
+          </div>
+          <div className="form-group">
+            <label>Category</label>
+            <select name="posts_categories_id" className="form-control" onChange={onChange}>
+              {allCategories}
+            </select>
+          </div>
+          <div className="form-group">
+            <label>Image</label>
+            <input type="file" accept="image/*" name="attachment" onChange={onFileSelect}></input>
+          </div>
+          <label>Description</label>
+          <textarea className="form-control" name="description" rows="5" onChange={onChange} />
+          <button type="submit" className="btn custom-button mt-3">
+            Create Recipe
+          </button>
+        </form>
+      ) : (
+        <>Post has been created.</>
+      )}
+    </>
   )
 }
-
-export default CreatePost

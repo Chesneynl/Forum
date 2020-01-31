@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 
-function Register() {
+export function Register() {
   const [user, setUser] = useState({ email: '', username: '', password: '', password_repeat: '' })
   const [errors, setErrors] = useState({})
 
@@ -103,5 +103,3 @@ function Register() {
     </div>
   )
 }
-
-export default Register

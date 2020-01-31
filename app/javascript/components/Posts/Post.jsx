@@ -1,9 +1,9 @@
 import React from 'react'
 import { useDispatch } from 'react-redux'
-import { deletePost } from '../../actions'
+import { deletePost } from '../../actions/thunks'
 import { Container, Button } from '../ui'
 
-const Post = props => {
+export function Post() {
   const { post } = props
   const dispatch = useDispatch()
 
@@ -40,5 +40,3 @@ const Post = props => {
     </>
   )
 }
-
-export default Post

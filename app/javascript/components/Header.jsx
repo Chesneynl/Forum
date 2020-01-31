@@ -1,4 +1,5 @@
 import React from 'react'
+import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom'
 import styled from 'styled-components'
 import { Container } from './ui'
 
@@ -62,7 +63,7 @@ const Submenu = styled.ul`
 
 const SubmenuItem = styled.li``
 
-const Header = props => {
+export const Header = props => {
   const { user, userIsAdmin } = props
 
   return (
@@ -109,7 +110,13 @@ const Header = props => {
           </a>
           <ul>
             <MenuItem>
+              <MenuItemLink href="/trennding">Trending</MenuItemLink>
+            </MenuItem>
+            <MenuItem>
               <MenuItemLink href="/categories">Categories</MenuItemLink>
+            </MenuItem>
+            <MenuItem>
+              <MenuItemLink href="/New">New</MenuItemLink>
             </MenuItem>
           </ul>
           <form className="form-inline my-2 my-lg-0">

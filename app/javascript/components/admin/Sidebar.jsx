@@ -1,7 +1,7 @@
 import React from 'react'
 import Link from '../ui/Link'
 
-const SideBar = () => {
+export function SideBar() {
   return (
     <>
       <ul className="list-group">
@@ -11,4 +11,5 @@ const SideBar = () => {
     </>
   )
 }
+
 export default SideBar

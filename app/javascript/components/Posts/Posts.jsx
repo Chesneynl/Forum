@@ -1,18 +1,43 @@
 import React, { useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { fetchPosts, fetchLikes, likePost, dislikePost } from '../../actions/thunks'
-import { Link, LoadingSpinner, Container, Button } from '../ui/'
+import { useParams } from 'react-router-dom'
+import {
+  fetchPosts,
+  fetchPostsByCategory,
+  fetchLikes,
+  likePost,
+  dislikePost,
+} from '../../actions/thunks'
+import { Link, LoadingSpinner, Button } from '../ui'
 import styled from 'styled-components'
 
-const Posts = props => {
+export function Posts(props) {
+  const { postsType } = props
   const posts = useSelector(state => state.posts.items)
   const likes = useSelector(state => state.likes.items)
   const isloading = useSelector(state => state.posts.isLoading)
   const dispatch = useDispatch()
   const csrfToken = document.querySelector('meta[name=csrf-token]').content
+  const { id } = useParams()
 
   useEffect(() => {
-    dispatch(fetchPosts())
+    switch (postsType) {
+      case 'category':
+        dispatch(fetchPostsByCategory(id))
+        break
+      case 'new':
+        dispatch(fetchPosts())
+        break
+      case 'inactive':
+        dispatch(fetchPosts())
+        break
+      case 'my-posts':
+        dispatch(fetchPosts())
+        break
+      default:
+        null
+    }
+
     dispatch(fetchLikes())
   }, [])
 
@@ -28,6 +53,18 @@ const Posts = props => {
     font-size: 24px;
   `
 
+  const PostFileContainer = styled.div`
+    width: 100%;
+
+    img {
+      width: 100%;
+    }
+  `
+
+  const LikeDislikeContainer = styled.div`
+    display: flex;
+  `
+
   const onEmpty = (
     <div className="vw-100 vh-50 d-flex align-items-center justify-content-center">
       <h4>
@@ -36,25 +73,53 @@ const Posts = props => {
     </div>
   )
 
+  const setPostActive = id => {
+    event.preventDefault()
+    const url = `/admin/posts/${id}`
+
+    const body = {
+      id,
+    }
+
+    const token = document.querySelector('meta[name="csrf-token"]').content
+    fetch(url, {
+      method: 'PATCH',
+      headers: {
+        'X-CSRF-Token': token,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(body),
+    })
+      .then(response => {
+        if (response.ok) {
+          return response.json()
+        }
+
+        throw new Error('Network response was not ok.')
+      })
+      .then(response => console.log(response))
+      .catch(error => console.log(error))
+  }
+
   return (
     <>
-      <Container>
-        {isloading && <LoadingSpinner />}
-        {posts.length > 0
-          ? posts.map((post, index) => {
-              const liked = likes.some(like => like.liked === true && like.post_id === post.id)
-              const disLiked = likes.some(
-                like => like.disliked === true && like.post_id === post.id,
-              )
+      {isloading && <LoadingSpinner />}
+      {posts.length > 0
+        ? posts.map((post, index) => {
+            const liked = likes.some(like => like.liked === true && like.post_id === post.id)
+            const disLiked = likes.some(like => like.disliked === true && like.post_id === post.id)
 
-              return (
-                <Post key={index}>
-                  <PostTitle>
-                    <Link name={post.name} to={`/post/${post.id}`} />
-                  </PostTitle>
+            return (
+              <Post key={index}>
+                <PostTitle>
+                  <Link name={post.name} to={`/post/${post.id}`} />
+                </PostTitle>
+                <PostFileContainer>
                   <a href={`/post/${post.id}`}>
                     <img src={`${post.attachment}`} />
                   </a>
+                </PostFileContainer>
+                <LikeDislikeContainer>
                   <Button
                     active={liked}
                     defaultIcon={'fa fa-thumbs-up'}
@@ -73,13 +138,11 @@ const Posts = props => {
                   >
                     Dislike
                   </Button>
-                </Post>
-              )
-            })
-          : onEmpty}
-      </Container>
+                </LikeDislikeContainer>
+              </Post>
+            )
+          })
+        : onEmpty}
     </>
   )
 }
-
-export default Posts
