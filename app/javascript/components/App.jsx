@@ -1,5 +1,5 @@
 import React from 'react'
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
+import { BrowserRouter as Router, Switch, Route, Link, Redirect } from 'react-router-dom'
 import { Provider } from 'react-redux'
 import { createStore, applyMiddleware } from 'redux'
 import allRedcuer from '../reducers'
@@ -11,14 +11,14 @@ import { Login, Register, MyPosts, EditProfile } from './account'
 import { CreatePost, Categories } from './posts'
 import { Header } from './Header'
 
-const App = () => {
+const App = props => {
   const store = createStore(allRedcuer, applyMiddleware(thunk))
 
   return (
     <Provider store={store}>
       <ThemeProvider theme="defaultTheme">
-        <Header />
         <Router>
+          <Header />
           <Switch>
             <Container>
               <Route exact path="/">

@@ -1,5 +1,5 @@
 class Admin::PostsController < ApplicationController
-  before_action :authorize
+  before_action :authorize, only: [:update, :create_category]
 
   def update 
     Post.update(params[:id], active: true)

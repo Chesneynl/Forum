@@ -23,10 +23,16 @@ Rails.application.routes.draw do
   # post
   get 'post/:id', to: 'post#index'
 
+  # react routing fixes
+  get 'login', to: 'static#index'
+  get 'register', to: 'static#index'
+  get 'categories', to: 'static#index'
+  get 'category/:id', to: 'static#index'
+  
   # account
   post "login", to: "account#login_user"
   post "register", to: "account#register_user"
 
-  root 'home#index'
+  root 'static#index'
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 end

@@ -1,5 +1,5 @@
 import React from 'react'
-import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom'
+import { BrowserRouter as Router, Switch, Route, Link, NavLink } from 'react-router-dom'
 import styled from 'styled-components'
 import { Container } from './ui'
 
@@ -36,11 +36,12 @@ const MenuItem = styled.li`
   }
 `
 
-const MenuItemLink = styled.a`
+const MenuItemLink = styled(NavLink)`
   text-decoration: none;
   color: #000;
 
-  &;hover {
+  &;hover,
+  &.active {
     color: red;
   }
 `
@@ -72,32 +73,32 @@ export const Header = props => {
         <Container>
           {userIsAdmin && (
             <MenuItem>
-              <MenuItemLink href="/admin/posts">Admin panel</MenuItemLink>
+              <MenuItemLink to="/admin/posts">Admin panel</MenuItemLink>
             </MenuItem>
           )}
           {!user ? (
             <>
-              <MenuItemLink href="/register">Register</MenuItemLink>
-              <MenuItemLink href="/login">Login</MenuItemLink>
+              <MenuItemLink to="/register">Register</MenuItemLink>
+              <MenuItemLink to="/login">Login</MenuItemLink>
             </>
           ) : (
             <>
               <MenuItem>
-                <MenuItemLink href="#">{user.username}</MenuItemLink>
+                <MenuItemLink to="#">{user.username}</MenuItemLink>
                 <Submenu>
                   <SubmenuItem>
-                    <MenuItemLink href="/account/my-posts">My posts</MenuItemLink>
+                    <MenuItemLink to="/account/my-posts">My posts</MenuItemLink>
                   </SubmenuItem>
                   <SubmenuItem>
-                    <MenuItemLink href="/account/create-post">Create post</MenuItemLink>
+                    <MenuItemLink to="/account/create-post">Create post</MenuItemLink>
                   </SubmenuItem>
                   <SubmenuItem>
-                    <MenuItemLink href="/account/edit-profile">Account settings</MenuItemLink>
+                    <MenuItemLink to="/account/edit-profile">Account settings</MenuItemLink>
                   </SubmenuItem>
                 </Submenu>
               </MenuItem>
               <MenuItem>
-                <MenuItemLink href="/logout">Logout</MenuItemLink>
+                <MenuItemLink to="/logout">Logout</MenuItemLink>
               </MenuItem>
             </>
           )}
@@ -110,13 +111,13 @@ export const Header = props => {
           </a>
           <ul>
             <MenuItem>
-              <MenuItemLink href="/trennding">Trending</MenuItemLink>
+              <MenuItemLink to="/trennding">Trending</MenuItemLink>
             </MenuItem>
             <MenuItem>
-              <MenuItemLink href="/categories">Categories</MenuItemLink>
+              <MenuItemLink to="/categories">Categories</MenuItemLink>
             </MenuItem>
             <MenuItem>
-              <MenuItemLink href="/New">New</MenuItemLink>
+              <MenuItemLink to="/New">New</MenuItemLink>
             </MenuItem>
           </ul>
           <form className="form-inline my-2 my-lg-0">

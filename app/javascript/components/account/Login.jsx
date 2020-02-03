@@ -39,6 +39,7 @@ export function Login(props) {
         setRespoonse(response)
         if (response.success) {
           props.history.push('/')
+          return <Redirect to="/" />
         }
       })
       .catch(error => console.log(error))
