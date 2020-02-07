@@ -47,7 +47,7 @@ class AccountController < ApplicationController
       session[:user_id] = user.id
       render json: user
     else
-      render json: {errors: user.errors}
+      render json: {errors: user.errors.to_h}
     end
   end
 

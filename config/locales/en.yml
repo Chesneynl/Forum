@@ -32,17 +32,16 @@
 en:
   activerecord:
     errors:
+      invalid_email: 'This is not a valid email address.'
       models:
-        role:
-          attributes:
-            name:
-              blank: 'foo blank in nl bar baz'
-              taken: 'A role with that name alreadt exists'
         user:
           attributes:
             username:
-              blank: 'foo blank in nl bar baz'
-              taken: 'A user with that username is already registerd.'
+              blank: 'This field is required.'
+              taken: 'A user with that username already exists.'
             email:
-              blank: 'foo blank in nl bar baz'
-              taken: 'A user with that email is already registerd.'
+              blank: 'This field is required.'
+              invalid_email: 'This is not a valid email address.'
+              taken: 'A user with that email already exists.'
+            password:
+              blank: 'This field is required.'
