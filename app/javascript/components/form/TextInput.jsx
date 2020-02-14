@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
 import { InputRow } from './InputRow'
-import { ErrorMessage } from './ErrorMessage'
 
 const InputField = styled.input`
   display: block;
@@ -35,6 +34,10 @@ const InputField = styled.input`
     color: #999999;
     opacity: 1;
   }
+`
+
+const ErrorMessage = styled.div`
+  color: red;
 `
 
 export const TextInput = props => {

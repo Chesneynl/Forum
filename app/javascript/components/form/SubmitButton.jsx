@@ -31,7 +31,7 @@ export function SubmitButton(props) {
   const { name } = props
   return (
     <Base>
-      <Button type="submit">{name}</Button>
+      <Button>{name}</Button>
     </Base>
   )
 }

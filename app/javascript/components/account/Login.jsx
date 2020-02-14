@@ -1,15 +1,13 @@
 import React, { useState } from 'react'
-import { useSelector, useDispatch } from 'react-redux'
-import { Redirect } from 'react-router-dom'
 import { TextInput } from '../form/TextInput'
 import { SubmitButton } from '../form/SubmitButton'
+import { InfoMessage } from '../ui'
 
 export function Login(props) {
   const currentUser = props.user
   const [user, setUser] = useState({ email: '', password: '' })
   const [errors, setErrors] = useState({})
-  const [registered, setRegistered] = useState(false)
-  const dispatch = useDispatch()
+  const [loggedIn, setLoggedIn] = useState(false)
 
   const onChange = event => {
     setUser({ ...user, [event.target.name]: event.target.value })
@@ -36,16 +34,14 @@ export function Login(props) {
       body: JSON.stringify(body),
     })
       .then(response => {
-        console.log(response)
         if (response.ok) {
-          dispatch(setUser(response.json()))
+          return response.json()
         }
       })
       .then(response => {
-        setErrors(response.errors)
         if (response.success) {
-          return <Redirect to="/" />
-        }
+          setLoggedIn(true)
+        } else [setErrors(response.errors)]
       })
       .catch(error => console.log(error))
   }
@@ -56,7 +52,7 @@ export function Login(props) {
       <form onSubmit={onSubmit}>
         <TextInput
           type={'text'}
-          error={''}
+          error={errors && errors.email}
           name={'email'}
           value={user.email}
           onChange={onChange}
@@ -64,7 +60,7 @@ export function Login(props) {
         />
         <TextInput
           type={'Password'}
-          error={''}
+          error={(errors && errors.password) || errors.doesnt_exists}
           name={'password'}
           value={user.password}
           onChange={onChange}
@@ -77,7 +73,7 @@ export function Login(props) {
 
   const isLoggedIn = (
     <>
-      <div className="form-field-error">U bent al ingelogd.</div>
+      <div className="form-field-error">You are already logged in..</div>
     </>
   )
 
@@ -85,8 +81,9 @@ export function Login(props) {
     <div className="container mt-5">
       <div className="row">
         <div className="col-sm-12 col-lg-6 offset-lg-3">
-          {registered && 'Youre succesfully registered'}
-          {currentUser ? isLoggedIn : renderForm}
+          {loggedIn && <InfoMessage>You're now logged in.</InfoMessage>}
+          {currentUser && isLoggedIn}
+          {!currentUser && !loggedIn ? renderForm : <div></div>}
         </div>
       </div>
     </div>

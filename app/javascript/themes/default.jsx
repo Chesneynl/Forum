@@ -49,6 +49,7 @@ export const defaultTheme = {
 
   colors: {
     primary: themeColors.primary,
+    success: themeColors.success,
   },
 
   iconSizes: {

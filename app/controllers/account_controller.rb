@@ -45,7 +45,7 @@ class AccountController < ApplicationController
     
     if user.valid? && user.save
       session[:user_id] = user.id
-      render json: user
+      render json: {success: true}
     else
       render json: {errors: user.errors.to_h}
     end

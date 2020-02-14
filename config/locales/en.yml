@@ -30,18 +30,22 @@
 # available at http://guides.rubyonrails.org/i18n.html.
 
 en:
+  invalid_email: 'This is not a valid email address.'
   activerecord:
     errors:
-      invalid_email: 'This is not a valid email address.'
       models:
         user:
           attributes:
             username:
               blank: 'This field is required.'
               taken: 'A user with that username already exists.'
+              too_short: 'Your username must have at least %{count} characters.'
+              too_long: 'Your username must have no more than %{count} characters.'
             email:
               blank: 'This field is required.'
               invalid_email: 'This is not a valid email address.'
               taken: 'A user with that email already exists.'
             password:
               blank: 'This field is required.'
+              too_short: 'Your password must have at least %{count} characters.'
+              too_long: 'Your password must have no more than %{count} characters.'
