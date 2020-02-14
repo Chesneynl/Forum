@@ -4,7 +4,7 @@ import Container from '../ui/Container'
 
 export function CreateCategory() {
   const [post, setPost] = useState({ name: '', description: '' })
-  const [attachment, setAttachment] = useState()
+  const [image, setImage] = useState()
 
   const stripHtmlEntities = str => {
     return String(str)
@@ -21,21 +21,21 @@ export function CreateCategory() {
     let file = event.target.files[0]
 
     reader.onload = function(upload) {
-      setAttachment(upload.target.result)
+      setImage(upload.target.result)
     }
     reader.readAsDataURL(file)
   }
 
   const onSubmit = event => {
     event.preventDefault()
-    const url = '/admin/categories'
+    const url = '/admin/create-category'
     const { name, description } = post
 
     if (name.length == 0 || description.length == 0) return
 
     const body = {
       name,
-      attachment,
+      image,
       description: stripHtmlEntities(description.replace(/\n/g, '<br> <br>')),
     }
 
@@ -81,7 +81,7 @@ export function CreateCategory() {
           </div>
           <div className="form-group">
             <label>Image</label>
-            <input type="file" accept="image/*" name="attachment" onChange={onFileSelect}></input>
+            <input type="file" accept="image/*" name="image" onChange={onFileSelect}></input>
           </div>
           <label>Description</label>
           <textarea className="form-control" name="description" rows="5" onChange={onChange} />

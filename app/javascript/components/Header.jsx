@@ -1,7 +1,9 @@
 import React from 'react'
+import { useDispatch } from 'react-redux'
 import { BrowserRouter as Router, Switch, Route, Link, NavLink } from 'react-router-dom'
 import styled from 'styled-components'
 import { Container } from './ui'
+import { logout } from '../actions/thunks'
 
 const Base = styled.div`
   background: #fff;
@@ -64,15 +66,20 @@ const Submenu = styled.ul`
 
 const SubmenuItem = styled.li``
 
-export const Header = (user, userIsAdmin) => {
-  console.log(user)
-  console.log(userIsAdmin)
+export const Header = props => {
+  const { user } = props
+  const dispatch = useDispatch()
+
+  function logoutClick(e) {
+    e.preventDefault()
+    dispatch(logout())
+  }
 
   return (
     <>
       <BaseTopBar>
         <Container>
-          {userIsAdmin && (
+          {user && user.admin && (
             <MenuItem>
               <MenuItemLink to="/admin/check-posts">Admin panel</MenuItemLink>
             </MenuItem>
@@ -85,7 +92,7 @@ export const Header = (user, userIsAdmin) => {
           ) : (
             <>
               <MenuItem>
-                <MenuItemLink to="#">{user.username}</MenuItemLink>
+                <MenuItemLink to="/account/my-posts">{user.username}</MenuItemLink>
                 <Submenu>
                   <SubmenuItem>
                     <MenuItemLink to="/account/my-posts">My posts</MenuItemLink>
@@ -99,7 +106,9 @@ export const Header = (user, userIsAdmin) => {
                 </Submenu>
               </MenuItem>
               <MenuItem>
-                <MenuItemLink to="/logout">Logout</MenuItemLink>
+                <MenuItemLink to="/logout" onClick={e => logoutClick(e)}>
+                  Logout
+                </MenuItemLink>
               </MenuItem>
             </>
           )}

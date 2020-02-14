@@ -25,9 +25,7 @@ export function Categories() {
   ))
   const noEmpty = (
     <div className="vw-100 vh-50 d-flex align-items-center justify-content-center">
-      <h4>
-        No categories yet. Why not <a href="/account/create-category">create one</a>
-      </h4>
+      <h4>No categories yet.</h4>
     </div>
   )
 

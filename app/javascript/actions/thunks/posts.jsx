@@ -1,4 +1,4 @@
-import { setPosts, setLoading, setCategories, setPostCreated } from '../../actions'
+import { setPosts, setPost, setPostsLoading, setCategories } from '../../actions'
 
 export function fetchCategories() {
   return async function(dispatch) {
@@ -13,7 +13,7 @@ export function fetchCategories() {
 
 export function fetchInActivePosts() {
   return async function(dispatch) {
-    return fetch('/api/v1/posts')
+    return fetch('/api/v1/inactive-posts')
       .then(response => {
         if (response.ok) {
           return response.json()
@@ -23,13 +23,12 @@ export function fetchInActivePosts() {
       })
       .then(function(json) {
         dispatch(setPosts(json))
-        dispatch(setLoading(false))
+        dispatch(setPostsLoading(false))
       })
   }
 }
 
 export function fetchPosts() {
-  console.log('fetchPosts')
   return async function(dispatch) {
     return fetch('/api/v1/posts')
       .then(response => {
@@ -41,15 +40,14 @@ export function fetchPosts() {
       })
       .then(function(json) {
         dispatch(setPosts(json))
-        dispatch(setLoading(false))
+        dispatch(setPostsLoading(false))
       })
   }
 }
 
-export function fetchPostsByCategory() {
-  console.log('fetchPostsByCategory')
+export function fetchPostsByCategory(id) {
   return async function(dispatch) {
-    return fetch('/api/v1/category/1')
+    return fetch('/api/v1/category/' + id)
       .then(response => {
         if (response.ok) {
           return response.json()
@@ -59,7 +57,26 @@ export function fetchPostsByCategory() {
       })
       .then(function(json) {
         dispatch(setPosts(json))
-        dispatch(setLoading(false))
+        dispatch(setPostsLoading(false))
+      })
+  }
+}
+
+export function fetchPostById(id) {
+  return async function(dispatch) {
+    return fetch('/api/v1/post/' + id)
+      .then(response => {
+        if (response.ok) {
+          console.log(response)
+          return response.json()
+        }
+
+        throw new Error('Network response was not ok.')
+      })
+      .then(function(json) {
+        console.log(json)
+        dispatch(setPost(json))
+        dispatch(setPostsLoading(false))
       })
   }
 }
@@ -76,7 +93,7 @@ export function deletePost(id) {
       })
       .then(function(json) {
         dispatch(setPosts(json))
-        dispatch(setLoading(false))
+        dispatch(setPostsLoading(false))
       })
   }
 }

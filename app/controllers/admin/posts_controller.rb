@@ -1,7 +1,7 @@
 class Admin::PostsController < ApplicationController
   before_action :authorize, only: [:update, :create_category]
 
-  def update 
+  def approve_post 
     Post.update(params[:id], active: true)
     render json: {succes: true}
   end

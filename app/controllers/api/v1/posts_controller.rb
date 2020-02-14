@@ -1,5 +1,6 @@
 class Api::V1::PostsController < ApplicationController
-  before_action :authorize, only: [:update, :create_category]
+  before_action :authorize, only: [:update]
+  skip_before_action :verify_authenticity_token
 
   def index
     posts = Post.where(active: true)
@@ -15,6 +16,10 @@ class Api::V1::PostsController < ApplicationController
     else 
       render json: 'You dont have permission' 
     end
+  end
+
+  def post_by_id
+    render json: Post.find(params[:id])
   end
 
   def categories 
@@ -64,15 +69,11 @@ class Api::V1::PostsController < ApplicationController
   private
 
   def post_params
-    params.permit(:name, :image, :description, :active, :attachment ).merge(user_id: current_user.id)
-  end
-
-  def post
-    @post ||= Post.find(params[:id])
+    params.permit(:name, :image, :description, :posts_categories_id, :active, :attachment ).merge(user_id: logged_in_user.id)
   end
 
   def like_params
-    params.permit(:post_id, :liked, :disliked).merge(user_id: current_user.id)
+    params.permit(:post_id, :liked, :disliked).merge(user_id: logged_in_user.id)
   end
 
 end

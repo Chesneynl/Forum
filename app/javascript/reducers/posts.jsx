@@ -1,5 +1,10 @@
-const postsReducer = (state = { items: [], categories: [], isLoading: true }, action) => {
+const postsReducer = (
+  state = { items: [], categories: [], isLoading: true, singlePost: {} },
+  action,
+) => {
   switch (action.type) {
+    case 'SET_POST':
+      return { ...state, singlePost: action.payload }
     case 'SET_POSTS':
       return { ...state, items: action.payload }
     case 'SET_POSTS_LOADING':

@@ -5,7 +5,14 @@ export const setPosts = posts => {
   }
 }
 
-export const setLoading = value => {
+export const setPost = post => {
+  return {
+    type: 'SET_POST',
+    payload: post,
+  }
+}
+
+export const setPostsLoading = value => {
   return {
     type: 'SET_POSTS_LOADING',
     payload: value,
@@ -23,5 +30,12 @@ export const setCategories = categories => {
   return {
     type: 'SET_CATEGORIES',
     payload: categories,
+  }
+}
+
+export const setUser = user => {
+  return {
+    type: 'SET_USER',
+    payload: user,
   }
 }

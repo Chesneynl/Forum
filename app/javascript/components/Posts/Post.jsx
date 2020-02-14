@@ -1,10 +1,19 @@
-import React from 'react'
-import { useDispatch } from 'react-redux'
-import { deletePost } from '../../actions/thunks'
-import { Container, Button } from '../ui'
+import React, { useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { deletePost, fetchPostById } from '../../actions/thunks'
+import { Container, Button, Link } from '../ui'
+import { useParams } from 'react-router-dom'
 
-export function Post() {
-  const { post } = props
+export function Post(props) {
+  const { id } = useParams()
+  const post = useSelector(state => state.posts.singlePost)
+
+  console.log(post)
+
+  useEffect(() => {
+    dispatch(fetchPostById(id))
+  }, [])
+
   const dispatch = useDispatch()
 
   const postDescription = post.description
@@ -33,9 +42,7 @@ export function Post() {
             </Button>
           </div>
         </div>
-        <a href="/" className="btn btn-link">
-          Back to posts
-        </a>
+        <Link name="Back to posts" to="/" />
       </Container>
     </>
   )

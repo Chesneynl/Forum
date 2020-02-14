@@ -1,18 +1,19 @@
 import React, { useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { useParams } from 'react-router-dom'
 import {
   fetchPosts,
   fetchPostsByCategory,
+  fetchInActivePosts,
   fetchLikes,
   likePost,
   dislikePost,
 } from '../../actions/thunks'
 import { Link, LoadingSpinner, Button } from '../ui'
 import styled from 'styled-components'
+import { useParams } from 'react-router-dom'
 
 export function Posts(props) {
-  const { postsType } = props
+  const { user, postsType } = props
   const posts = useSelector(state => state.posts.items)
   const likes = useSelector(state => state.likes.items)
   const isloading = useSelector(state => state.posts.isLoading)
@@ -29,7 +30,7 @@ export function Posts(props) {
         dispatch(fetchPosts())
         break
       case 'inactive':
-        dispatch(fetchPosts())
+        dispatch(fetchInActivePosts())
         break
       case 'my-posts':
         dispatch(fetchPosts())
@@ -75,7 +76,7 @@ export function Posts(props) {
 
   const setPostActive = id => {
     event.preventDefault()
-    const url = `/admin/posts/${id}`
+    const url = `/admin/approve-post/${id}`
 
     const body = {
       id,
@@ -104,21 +105,29 @@ export function Posts(props) {
   return (
     <>
       {isloading && <LoadingSpinner />}
-      {posts.length > 0
-        ? posts.map((post, index) => {
-            const liked = likes.some(like => like.liked === true && like.post_id === post.id)
-            const disLiked = likes.some(like => like.disliked === true && like.post_id === post.id)
+      {!isloading && posts.length === 0 && onEmpty}
+      {posts.length > 0 &&
+        posts.map((post, index) => {
+          const liked = likes.some(like => like.liked === true && like.post_id === post.id)
+          const disLiked = likes.some(like => like.disliked === true && like.post_id === post.id)
 
-            return (
-              <Post key={index}>
-                <PostTitle>
-                  <Link name={post.name} to={`/post/${post.id}`} />
-                </PostTitle>
-                <PostFileContainer>
-                  <a href={`/post/${post.id}`}>
-                    <img src={`${post.attachment}`} />
-                  </a>
-                </PostFileContainer>
+          return (
+            <Post key={index}>
+              <PostTitle>
+                <Link name={post.name} to={`/post/${post.id}`} />
+              </PostTitle>
+              {!post.active && (
+                <a href="#" onClick={() => setPostActive(post.id)}>
+                  Approve post
+                </a>
+              )}
+
+              <PostFileContainer>
+                <a href={`/post/${post.id}`}>
+                  <img src={`${post.attachment}`} />
+                </a>
+              </PostFileContainer>
+              {user && (
                 <LikeDislikeContainer>
                   <Button
                     active={liked}
@@ -139,10 +148,10 @@ export function Posts(props) {
                     Dislike
                   </Button>
                 </LikeDislikeContainer>
-              </Post>
-            )
-          })
-        : onEmpty}
+              )}
+            </Post>
+          )
+        })}
     </>
   )
 }

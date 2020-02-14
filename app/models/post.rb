@@ -3,6 +3,7 @@ class Post < ApplicationRecord
   validates :description, presence: true
   validates :user_id, presence: true
   validates :attachment, presence: true
+  validates :posts_categories_id, presence: true
   attribute :active, presence: true, default: 0
 
   belongs_to :user

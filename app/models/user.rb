@@ -1,8 +1,6 @@
 class User < ApplicationRecord
   has_secure_password
 
-  has_many :assignments  
-  has_many :roles, through: :assignments
   has_many :posts  
 
   validates :email, presence: true, email: true, uniqueness: true

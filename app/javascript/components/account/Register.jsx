@@ -58,7 +58,7 @@ export function Register() {
           <form onSubmit={onSubmit}>
             <TextInput
               type={'text'}
-              error={errors.email}
+              error={errors && errors.email}
               name={'email'}
               value={user.email}
               onChange={onChange}
@@ -66,7 +66,7 @@ export function Register() {
             />
             <TextInput
               type={'text'}
-              error={errors.username}
+              error={errors && errors.username}
               name={'username'}
               value={user.username}
               onChange={onChange}
@@ -74,7 +74,7 @@ export function Register() {
             />
             <TextInput
               type={'password'}
-              error={errors.password}
+              error={errors && errors.password}
               value={user.password}
               onChange={onChange}
               name={'password'}
@@ -83,7 +83,7 @@ export function Register() {
             <TextInput
               type={'password'}
               onChange={onChange}
-              error={errors.password}
+              error={errors && errors.password}
               value={user.password_repeat}
               name={'password_repeat'}
               placeholder={'Repeat password'}

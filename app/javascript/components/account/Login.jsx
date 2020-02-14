@@ -1,12 +1,15 @@
 import React, { useState } from 'react'
+import { useSelector, useDispatch } from 'react-redux'
 import { Redirect } from 'react-router-dom'
 import { TextInput } from '../form/TextInput'
 import { SubmitButton } from '../form/SubmitButton'
 
 export function Login(props) {
+  const currentUser = props.user
   const [user, setUser] = useState({ email: '', password: '' })
-  const [response, setRespoonse] = useState({})
   const [errors, setErrors] = useState({})
+  const [registered, setRegistered] = useState(false)
+  const dispatch = useDispatch()
 
   const onChange = event => {
     setUser({ ...user, [event.target.name]: event.target.value })
@@ -35,13 +38,10 @@ export function Login(props) {
       .then(response => {
         console.log(response)
         if (response.ok) {
-          return response.json()
+          dispatch(setUser(response.json()))
         }
-        throw new Error('Network response was not ok.')
       })
       .then(response => {
-        setRespoonse(response)
-        console.log(response)
         setErrors(response.errors)
         if (response.success) {
           return <Redirect to="/" />
@@ -85,10 +85,8 @@ export function Login(props) {
     <div className="container mt-5">
       <div className="row">
         <div className="col-sm-12 col-lg-6 offset-lg-3">
-          {response.errors && response.errors.doesnt_exists ? (
-            <div className="form-field-error">{response.errors.doesnt_exists}</div>
-          ) : null}
-          {response.success && response.success.isLoggedIn ? isLoggedIn : renderForm}
+          {registered && 'Youre succesfully registered'}
+          {currentUser ? isLoggedIn : renderForm}
         </div>
       </div>
     </div>

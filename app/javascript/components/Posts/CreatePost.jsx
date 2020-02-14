@@ -11,6 +11,8 @@ export function CreatePost() {
   const [errors, setErrors] = useState({})
   const dispatch = useDispatch()
 
+  console.log(post)
+
   useEffect(() => {
     dispatch(fetchCategories())
   }, [])
@@ -36,17 +38,17 @@ export function CreatePost() {
     const token = document.querySelector('meta[name="csrf-token"]').content
     const { name, description, posts_categories_id } = post
 
+    function stripHtmlEntities(str) {
+      return String(str)
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+    }
+
     const body = {
       name,
       description: stripHtmlEntities(description),
       attachment,
       posts_categories_id,
-    }
-
-    const stripHtmlEntities = str => {
-      return String(str)
-        .replace(/</g, '&lt;')
-        .replace(/>/g, '&gt;')
     }
 
     fetch(url, {

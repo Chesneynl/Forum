@@ -1,4 +1,6 @@
 class AccountController < ApplicationController  
+  skip_before_action :verify_authenticity_token
+  
   def index
     react_props
   end  
@@ -7,12 +9,9 @@ class AccountController < ApplicationController
     react_props
   end  
 
-  def react_props
-    @react_props = {
-      posts: current_user.posts,
-      currentUser: current_user
-    }
-  end 
+  def current_user
+    render json: logged_in_user
+  end
 
   def update
     user = User.new(register_params)
@@ -26,7 +25,8 @@ class AccountController < ApplicationController
   end
 
   def logout
-    logout!
+    reset_session
+    render json: {success: true}
   end  
 
   def login_user
