@@ -10,15 +10,18 @@ import { Container } from './ui'
 import { Login, Register, MyPosts, EditProfile } from './account'
 import { CreatePost, Categories } from './posts'
 import { Header } from './Header'
+import { CreateCategory } from './admin'
 
 const App = props => {
+  const { user, userIsAdmin } = props
+
   const store = createStore(allRedcuer, applyMiddleware(thunk))
 
   return (
     <Provider store={store}>
       <ThemeProvider theme="defaultTheme">
         <Router>
-          <Header />
+          <Header user={user} userIsAdmin={userIsAdmin} />
           <Switch>
             <Container>
               <Route exact path="/">
@@ -43,10 +46,13 @@ const App = props => {
                 <EditProfile />
               </Route>
               <Route path="/account/create-post">
-                <Posts />
+                <CreatePost />
               </Route>
               <Route path="/admin/check-posts">
                 <Posts postsType={'inactive'} />
+              </Route>
+              <Route path="/admin/create-category">
+                <CreateCategory />
               </Route>
             </Container>
           </Switch>

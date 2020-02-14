@@ -1,8 +1,12 @@
 import React, { useState } from 'react'
+import { Redirect } from 'react-router-dom'
+import { TextInput } from '../form/TextInput'
+import { SubmitButton } from '../form/SubmitButton'
 
 export function Login(props) {
   const [user, setUser] = useState({ email: '', password: '' })
   const [response, setRespoonse] = useState({})
+  const [errors, setErrors] = useState({})
 
   const onChange = event => {
     setUser({ ...user, [event.target.name]: event.target.value })
@@ -11,9 +15,8 @@ export function Login(props) {
   const onSubmit = event => {
     event.preventDefault()
     const url = '/login'
-    const { email, password } = user
 
-    if (email.length == 0 || password.length == 0) return
+    const { email, password } = user
 
     const body = {
       email,
@@ -30,6 +33,7 @@ export function Login(props) {
       body: JSON.stringify(body),
     })
       .then(response => {
+        console.log(response)
         if (response.ok) {
           return response.json()
         }
@@ -37,8 +41,9 @@ export function Login(props) {
       })
       .then(response => {
         setRespoonse(response)
+        console.log(response)
+        setErrors(response.errors)
         if (response.success) {
-          props.history.push('/')
           return <Redirect to="/" />
         }
       })
@@ -49,26 +54,23 @@ export function Login(props) {
     <>
       <h1 className="font-weight-normal mb-5">Login</h1>
       <form onSubmit={onSubmit}>
-        <div className="form-group">
-          <label htmlFor="recipeName">Email</label>
-          <input type="text" name="email" className="form-control" required onChange={onChange} />
-          {response.errors && response.errors.email ? (
-            <div className="form-field-error">{response.errors.email}</div>
-          ) : null}
-        </div>
-        <div className="form-group">
-          <label htmlFor="recipeDescription">Password</label>
-          <input
-            type="password"
-            name="password"
-            className="form-control"
-            required
-            onChange={onChange}
-          />
-        </div>
-        <button type="submit" className="btn btn-success mt-3">
-          Login
-        </button>
+        <TextInput
+          type={'text'}
+          error={''}
+          name={'email'}
+          value={user.email}
+          onChange={onChange}
+          placeholder={'E-mail address'}
+        />
+        <TextInput
+          type={'Password'}
+          error={''}
+          name={'password'}
+          value={user.password}
+          onChange={onChange}
+          placeholder={'Password'}
+        />
+        <SubmitButton name={'Login'} />
       </form>
     </>
   )

@@ -4,7 +4,12 @@ import { TextInput } from '../form/TextInput'
 import { SubmitButton } from '../form/SubmitButton'
 
 export function Register() {
-  const [user, setUser] = useState({ email: '', username: '', password: '', password_repeat: '' })
+  const [user, setUser] = useState({
+    email: '',
+    username: '',
+    password: '',
+    password_repeat: '',
+  })
   const [errors, setErrors] = useState({})
 
   const onChange = event => {
@@ -34,14 +39,12 @@ export function Register() {
       body: JSON.stringify(body),
     })
       .then(response => {
-        console.log(response)
         if (response.ok) {
           return response.json()
         }
         throw new Error('Network response was not ok.')
       })
       .then(response => {
-        console.log(response.errors)
         setErrors(response.errors)
       })
       .catch(error => console.log(error))
@@ -57,24 +60,32 @@ export function Register() {
               type={'text'}
               error={errors.email}
               name={'email'}
+              value={user.email}
+              onChange={onChange}
               placeholder={'E-mail address'}
             />
             <TextInput
               type={'text'}
               error={errors.username}
               name={'username'}
+              value={user.username}
+              onChange={onChange}
               placeholder={'Username'}
             />
             <TextInput
               type={'password'}
               error={errors.password}
+              value={user.password}
+              onChange={onChange}
               name={'password'}
               placeholder={'Password'}
             />
             <TextInput
               type={'password'}
+              onChange={onChange}
               error={errors.password}
-              name={'password'}
+              value={user.password_repeat}
+              name={'password_repeat'}
               placeholder={'Repeat password'}
             />
 

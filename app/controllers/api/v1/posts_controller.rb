@@ -60,21 +60,6 @@ class Api::V1::PostsController < ApplicationController
     end
   end
 
-  # admin  
-  def update 
-    Post.update(params[:id], active: true)
-    render json: {succes: true}
-  end
-
-  def create_category
-    category = PostsCategory.create!(category_params)
-
-    if category
-      render json: category
-    else
-      render json: category.errors
-    end
-  end
 
   private
 
@@ -88,10 +73,6 @@ class Api::V1::PostsController < ApplicationController
 
   def like_params
     params.permit(:post_id, :liked, :disliked).merge(user_id: current_user.id)
-  end
-
-  def category_params
-    params.permit(:name, :image, :description )
   end
 
 end

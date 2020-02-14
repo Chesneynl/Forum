@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import styled from 'styled-components'
 import { InputRow } from './InputRow'
 import { ErrorMessage } from './ErrorMessage'
@@ -38,11 +38,17 @@ const InputField = styled.input`
 `
 
 export const TextInput = props => {
-  const { type, name, placeholder, onChange, error } = props
+  const { type, name, placeholder, value, onChange, error } = props
 
   return (
     <InputRow>
-      <InputField placeholder={placeholder} type={type} name={name} onChange={onChange} />
+      <InputField
+        placeholder={placeholder}
+        type={type}
+        name={name}
+        value={value}
+        onChange={onChange}
+      />
       {error ? <ErrorMessage>{error}</ErrorMessage> : null}
     </InputRow>
   )

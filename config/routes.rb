@@ -13,24 +13,32 @@ Rails.application.routes.draw do
     end
   end
 
-  # admin
+  # admin post routes
   namespace :admin do
-    resources :posts
-    get 'create-category', to: 'category#index'
     post 'create-category', to: 'category#create'
   end
+
+  #admin get routes
+  scope :admin do
+    get 'create-category', to: 'static#index'
+    get 'check-posts', to: 'static#index'
+  end
+
+  #categories
+  get 'categories', to: 'static#index'
+  get 'category/:id', to: 'static#index'
 
   # post
   get 'post/:id', to: 'post#index'
 
-  # react routing fixes
-  get 'login', to: 'static#index'
-  get 'register', to: 'static#index'
-  get 'categories', to: 'static#index'
-  get 'category/:id', to: 'static#index'
+  scope :account do
+    get 'create-post', to: 'static#index'
+  end
   
   # account
-  post "login", to: "account#login_user"
+  get 'login', to: 'static#index'
+  post 'login', to: 'account#login_user'
+  get 'register', to: 'static#index'
   post "register", to: "account#register_user"
 
   root 'static#index'

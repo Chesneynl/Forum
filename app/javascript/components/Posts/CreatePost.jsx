@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { fetchCategories } from '../../actions/thunks'
+import { TextInput } from '../form/TextInput'
 
 export function CreatePost() {
   const categories = useSelector(state => state.posts.categories)
   const [post, setPost] = useState({ name: '', description: '', posts_categories_id: null })
   const [postCreated, setPostCreated] = useState(false)
   const [attachment, setAttachment] = useState()
+  const [errors, setErrors] = useState({})
   const dispatch = useDispatch()
 
   useEffect(() => {
@@ -29,9 +31,17 @@ export function CreatePost() {
 
   const onSubmit = event => {
     event.preventDefault()
+
+    const url = '/api/v1/posts/create'
+    const token = document.querySelector('meta[name="csrf-token"]').content
     const { name, description, posts_categories_id } = post
 
-    if (name.length == 0 || description.length == 0 || posts_categories_id === null) return
+    const body = {
+      name,
+      description: stripHtmlEntities(description),
+      attachment,
+      posts_categories_id,
+    }
 
     const stripHtmlEntities = str => {
       return String(str)
@@ -39,29 +49,24 @@ export function CreatePost() {
         .replace(/>/g, '&gt;')
     }
 
-    const token = document.querySelector('meta[name="csrf-token"]').content
-
-    const params = {
+    fetch(url, {
       method: 'POST',
-      credentials: 'same-origin',
       headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
         'X-CSRF-Token': token,
+        'Content-Type': 'application/json',
       },
-      body: JSON.stringify({
-        name: name,
-        description: stripHtmlEntities(description),
-        attachment: attachment,
-        posts_categories_id: posts_categories_id,
-      }),
-    }
-    fetch('/api/v1/posts/create', params).then(response => {
-      if (response.ok) {
-        setPostCreated(true)
-        return response.ok
-      }
+      body: JSON.stringify(body),
     })
+      .then(response => {
+        if (response.ok) {
+          return response.json()
+        }
+        throw new Error('Network response was not ok.')
+      })
+      .then(response => {
+        setErrors(response.errors)
+      })
+      .catch(error => console.log(error))
   }
 
   const allCategories = categories.map((category, index) => (
@@ -75,10 +80,14 @@ export function CreatePost() {
       <h1 className="mb-5">Create a new post</h1>
       {!postCreated ? (
         <form onSubmit={onSubmit}>
-          <div className="form-group">
-            <label>Name</label>
-            <input type="text" name="name" className="form-control" required onChange={onChange} />
-          </div>
+          <TextInput
+            type={'text'}
+            error={errors.name}
+            name={'name'}
+            value={post.name}
+            onChange={onChange}
+            placeholder={'Name'}
+          />
           <div className="form-group">
             <label>Type</label>
             <select name="post_type" className="form-control">

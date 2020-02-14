@@ -64,8 +64,9 @@ const Submenu = styled.ul`
 
 const SubmenuItem = styled.li``
 
-export const Header = props => {
-  const { user, userIsAdmin } = props
+export const Header = (user, userIsAdmin) => {
+  console.log(user)
+  console.log(userIsAdmin)
 
   return (
     <>
@@ -73,7 +74,7 @@ export const Header = props => {
         <Container>
           {userIsAdmin && (
             <MenuItem>
-              <MenuItemLink to="/admin/posts">Admin panel</MenuItemLink>
+              <MenuItemLink to="/admin/check-posts">Admin panel</MenuItemLink>
             </MenuItem>
           )}
           {!user ? (
