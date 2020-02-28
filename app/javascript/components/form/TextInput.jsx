@@ -1,43 +1,50 @@
-import React, { useState } from 'react'
+import React from 'react'
 import styled from 'styled-components'
-import { InputRow } from './InputRow'
+import { InputRow, InputErrorMessage } from './'
+import { classNames } from 'helpers/classNames'
 
-const InputField = styled.input`
+const InputField = styled.input.attrs(({ error }) => ({
+  className: classNames({
+    error,
+  }),
+}))`
+  font-size: ${props => props.theme.typography.fontSizes.medium};
   display: block;
   width: 100%;
-  height: 34px;
-  padding: 6px 12px;
-  font-size: 14px;
-  line-height: 1.42857143;
-  color: #555555;
-  line-height: 34px;
-  background-color: #ffffff;
-  background-image: none;
-  border: 1px solid #cccccc;
-  border-radius: 4px;
-  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
-  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
-  -webkit-transition: border-color ease-in-out 0.15s, -webkit-box-shadow ease-in-out 0.15s;
-  -o-transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;
-  transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;
+  outline: 0;
+  line-height: ${props => props.theme.typography.lineHeights.small};
+  padding: ${props => props.theme.gutters.small} ${props => props.theme.gutters.medium};
+  background: #fff;
+  border: 1px solid ${props => props.theme.form.borderColor};
+  color: rgba(0, 0, 0, 0.87);
+  border-radius: 3px;
+  transition: box-shadow 0.1s ease, border-color 0.1s ease;
+
+  &.error {
+    background-color: #fff6f6;
+    border-color: #e0b4b4;
+    color: #a9706f;
+
+    ::placeholder {
+      color: rgba(159, 58, 56, 0.3);
+    }
+
+    &:focus {
+      ::placeholder {
+        color: rgba(0, 0, 0, 0.3);
+      }
+    }
+  }
+
+  ::placeholder {
+    color: rgba(0, 0, 0, 0.3);
+  }
 
   &:focus {
-    border-color: #66afe9;
-    outline: 0;
-    -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(102, 175, 233, 0.6);
-    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(102, 175, 233, 0.6);
+    border-color: ${props => props.theme.form.focusBorderColor};
+    background: #fff;
+    color: rgba(0, 0, 0, 0.8);
   }
-
-  &::-moz-placeholder,
-  &:-ms-input-placeholder,
-  &::-webkit-input-placeholder {
-    color: #999999;
-    opacity: 1;
-  }
-`
-
-const ErrorMessage = styled.div`
-  color: red;
 `
 
 export const TextInput = props => {
@@ -49,10 +56,11 @@ export const TextInput = props => {
         placeholder={placeholder}
         type={type}
         name={name}
+        error={error}
         value={value}
         onChange={onChange}
       />
-      {error ? <ErrorMessage>{error}</ErrorMessage> : null}
+      {error ? <InputErrorMessage>{error}</InputErrorMessage> : null}
     </InputRow>
   )
 }

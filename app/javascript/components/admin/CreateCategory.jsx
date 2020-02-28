@@ -1,9 +1,11 @@
 import React, { useState } from 'react'
 import { SideBar } from '../admin'
 import Container from '../ui/Container'
+import { TextInput, TextArea, SubmitButton } from '../form'
 
 export function CreateCategory() {
-  const [post, setPost] = useState({ name: '', description: '' })
+  const [category, setCategory] = useState({ name: '', description: '' })
+  const [errors, setErrors] = useState({})
   const [image, setImage] = useState()
 
   const stripHtmlEntities = str => {
@@ -13,7 +15,7 @@ export function CreateCategory() {
   }
 
   const onChange = event => {
-    setPost({ ...post, [event.target.name]: event.target.value })
+    setCategory({ ...category, [event.target.name]: event.target.value })
   }
 
   const onFileSelect = event => {
@@ -40,6 +42,7 @@ export function CreateCategory() {
     }
 
     const token = document.querySelector('meta[name="csrf-token"]').content
+
     fetch(url, {
       method: 'POST',
       headers: {
@@ -52,11 +55,12 @@ export function CreateCategory() {
         if (response.ok) {
           return response.json()
         }
-
         throw new Error('Network response was not ok.')
       })
-      .then(response => console.log(response))
-      .catch(error => console.log(error.message))
+      .then(response => {
+        setErrors(response.errors)
+      })
+      .catch(error => console.log(error))
   }
 
   return (
@@ -67,10 +71,14 @@ export function CreateCategory() {
       <div className="col-sm-12 col-lg-9">
         <h1 className="mb-5">Create a new category</h1>
         <form onSubmit={onSubmit}>
-          <div className="form-group">
-            <label>Name</label>
-            <input type="text" name="name" className="form-control" required onChange={onChange} />
-          </div>
+          <TextInput
+            type={'text'}
+            error={errors.name}
+            name={'name'}
+            value={category.name}
+            onChange={onChange}
+            placeholder={'Name'}
+          />
           <div className="form-group">
             <label>Type</label>
             <select name="post_type" className="form-control">
@@ -83,11 +91,15 @@ export function CreateCategory() {
             <label>Image</label>
             <input type="file" accept="image/*" name="image" onChange={onFileSelect}></input>
           </div>
-          <label>Description</label>
-          <textarea className="form-control" name="description" rows="5" onChange={onChange} />
-          <button type="submit" className="btn custom-button mt-3">
-            Create Recipe
-          </button>
+          <TextInput
+            type={'textarea'}
+            error={errors.description}
+            name={'name'}
+            value={category.description}
+            onChange={onChange}
+            placeholder={'Description'}
+          />
+          <SubmitButton name={'Create category'} />
         </form>
       </div>
     </Container>

@@ -8,7 +8,7 @@ export const LoadingSpinner = () => {
   `
   return (
     <Container>
-      <img src={LoadingSVG} alt="" />
+      <img src={LoadingSVG} alt="loading please wait.." />
     </Container>
   )
 }

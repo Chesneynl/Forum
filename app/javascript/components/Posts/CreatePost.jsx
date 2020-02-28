@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { fetchCategories } from '../../actions/thunks'
-import { TextInput } from '../form/TextInput'
+import { TextInput, SubmitButton, TextArea, SelectField } from '../form'
 
 export function CreatePost() {
   const categories = useSelector(state => state.posts.categories)
@@ -10,8 +10,11 @@ export function CreatePost() {
   const [attachment, setAttachment] = useState()
   const [errors, setErrors] = useState({})
   const dispatch = useDispatch()
-
-  console.log(post)
+  const options = [
+    { value: 'chocolate', label: 'Chocolate' },
+    { value: 'strawberry', label: 'Strawberry' },
+    { value: 'vanilla', label: 'Vanilla' },
+  ]
 
   useEffect(() => {
     dispatch(fetchCategories())
@@ -90,6 +93,7 @@ export function CreatePost() {
             onChange={onChange}
             placeholder={'Name'}
           />
+          <SelectField options={options} />
           <div className="form-group">
             <label>Type</label>
             <select name="post_type" className="form-control">
@@ -99,20 +103,23 @@ export function CreatePost() {
             </select>
           </div>
           <div className="form-group">
+            <label>Image</label>
+            <input type="file" accept="image/*" name="attachment" onChange={onFileSelect}></input>
+          </div>
+          <div className="form-group">
             <label>Category</label>
             <select name="posts_categories_id" className="form-control" onChange={onChange}>
               {allCategories}
             </select>
           </div>
-          <div className="form-group">
-            <label>Image</label>
-            <input type="file" accept="image/*" name="attachment" onChange={onFileSelect}></input>
-          </div>
-          <label>Description</label>
-          <textarea className="form-control" name="description" rows="5" onChange={onChange} />
-          <button type="submit" className="btn custom-button mt-3">
-            Create Recipe
-          </button>
+          <TextArea
+            error={errors.name}
+            name={'description'}
+            value={post.description}
+            onChange={onChange}
+            placeholder={'Description'}
+          />
+          <SubmitButton name={'Create post'} />
         </form>
       ) : (
         <>Post has been created.</>

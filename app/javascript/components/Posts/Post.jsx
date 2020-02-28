@@ -4,11 +4,9 @@ import { deletePost, fetchPostById } from '../../actions/thunks'
 import { Container, Button, Link } from '../ui'
 import { useParams } from 'react-router-dom'
 
-export function Post(props) {
+export function Post() {
   const { id } = useParams()
   const post = useSelector(state => state.posts.singlePost)
-
-  console.log(post)
 
   useEffect(() => {
     dispatch(fetchPostById(id))

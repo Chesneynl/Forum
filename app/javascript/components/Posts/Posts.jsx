@@ -11,6 +11,7 @@ import {
 import { Link, LoadingSpinner, Button } from '../ui'
 import styled from 'styled-components'
 import { useParams } from 'react-router-dom'
+import { LikeDislikes } from './LikeDislikes'
 
 export function Posts(props) {
   const { user, postsType } = props
@@ -43,14 +44,17 @@ export function Posts(props) {
   }, [])
 
   const Post = styled.div`
-    background-color: ${props => props.theme.colors.primary};
-    padding-bottom: 10px;
+    width: 75%;
+    border-radius: 5px;
+    padding: 20px;
     margin-bottom: 10px;
-    border-bottom: 1px solid #06aeed;
+    background: #fff;
+    margin-bottom: ${props => props.theme.gutters.large};
+    box-shadow: 0px 0px 5px 0px rgba(194, 194, 194, 0.75);
   `
 
   const PostTitle = styled.div`
-    padding: 15px 0;
+    padding-bottom: 15px;
     font-size: 24px;
   `
 
@@ -64,6 +68,7 @@ export function Posts(props) {
 
   const LikeDislikeContainer = styled.div`
     display: flex;
+    margin-top: ${props => props.theme.gutters.small};
   `
 
   const onEmpty = (
@@ -127,28 +132,25 @@ export function Posts(props) {
                   <img src={`${post.attachment}`} />
                 </a>
               </PostFileContainer>
-              {user && (
-                <LikeDislikeContainer>
-                  <Button
-                    active={liked}
-                    defaultIcon={'fa fa-thumbs-up'}
-                    successIcon={'fa fa-thumbs-up'}
-                    type="primary"
-                    onClick={() => dispatch(likePost(post.id, csrfToken))}
-                  >
-                    Like
-                  </Button>
-                  <Button
-                    active={disLiked}
-                    type="secondary"
-                    defaultIcon={'fa fa-thumbs-down'}
-                    successIcon={'fa fa-thumbs-down'}
-                    onClick={() => dispatch(dislikePost(post.id))}
-                  >
-                    Dislike
-                  </Button>
-                </LikeDislikeContainer>
-              )}
+
+              <LikeDislikeContainer>
+                <LikeDislikes
+                  name={'Like'}
+                  color={'green'}
+                  labelPostion={'left'}
+                  count={post.likes}
+                  active={liked}
+                  onClick={() => dispatch(likePost(post.id, csrfToken))}
+                />
+                <LikeDislikes
+                  name={'Dislike'}
+                  color={'red'}
+                  labelPostion={'right'}
+                  count={post.dislikes}
+                  active={disLiked}
+                  onClick={() => dispatch(dislikePost(post.id, csrfToken))}
+                />
+              </LikeDislikeContainer>
             </Post>
           )
         })}

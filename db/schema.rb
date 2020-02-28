@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_02_14_105511) do
+ActiveRecord::Schema.define(version: 2020_02_25_111152) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -27,6 +27,7 @@ ActiveRecord::Schema.define(version: 2020_02_14_105511) do
     t.boolean "active"
     t.integer "likes", default: 0
     t.integer "dislikes", default: 0
+    t.string "youtube_url"
     t.index ["posts_categories_id"], name: "index_posts_on_posts_categories_id"
     t.index ["user_id"], name: "index_posts_on_user_id"
   end

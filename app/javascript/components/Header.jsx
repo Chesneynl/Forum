@@ -14,7 +14,7 @@ const Base = styled.div`
 
 const BaseTopBar = styled.div`
   padding: 5px 0;
-  background-color: #c0392b;
+  background-color: ${props => props.theme.colors.primary};
   text-align: right;
   font-size: 14px;
 `
@@ -86,8 +86,8 @@ export const Header = props => {
           )}
           {!user ? (
             <>
-              <MenuItemLink to="/register">Register</MenuItemLink>
-              <MenuItemLink to="/login">Login</MenuItemLink>
+              <MenuItemLink to="/register">REGISTER</MenuItemLink>
+              <MenuItemLink to="/login">LOGIN</MenuItemLink>
             </>
           ) : (
             <>
@@ -121,13 +121,13 @@ export const Header = props => {
           </a>
           <ul>
             <MenuItem>
+              <MenuItemLink to="/New">New</MenuItemLink>
+            </MenuItem>
+            <MenuItem>
               <MenuItemLink to="/trennding">Trending</MenuItemLink>
             </MenuItem>
             <MenuItem>
               <MenuItemLink to="/categories">Categories</MenuItemLink>
-            </MenuItem>
-            <MenuItem>
-              <MenuItemLink to="/New">New</MenuItemLink>
             </MenuItem>
           </ul>
           <form className="form-inline my-2 my-lg-0">

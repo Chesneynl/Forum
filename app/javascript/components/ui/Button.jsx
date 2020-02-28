@@ -4,7 +4,7 @@ import styled from 'styled-components'
 const Container = styled.a.attrs(({}) => ({
   className: '',
 }))`
-  font-family:  ${props => props.theme.typography.buttonFontFamily};
+    font-family:  ${props => props.theme.typography.buttonFontFamily};
     display: block;
     width: 300px;
     height: 75px;

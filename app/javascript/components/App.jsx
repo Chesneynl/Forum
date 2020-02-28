@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
+import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-dom'
 import { Provider, useDispatch, useSelector } from 'react-redux'
 import { createStore, applyMiddleware } from 'redux'
 import { getCurrentUser } from '../actions/thunks'
@@ -17,6 +17,10 @@ function App(props) {
   const user = useSelector(state => state.users.current_user)
   const dispatch = useDispatch()
 
+  function isAdmin() {
+    return user && user.admin
+  }
+
   useEffect(() => {
     dispatch(getCurrentUser())
   }, [])
@@ -30,12 +34,8 @@ function App(props) {
             <Route exact path="/">
               <Posts postsType={'new'} user={user} />
             </Route>
-            <Route path="/login">
-              <Login user={user} />
-            </Route>
-            <Route path="/register">
-              <Register />
-            </Route>
+            <Route path="/login">{user ? <Redirect to="/" /> : <Login />}</Route>
+            <Route path="/register">{user ? <Redirect to="/" /> : <Register />}</Route>
 
             <Route path="/post/:id">
               <Post />
@@ -56,11 +56,18 @@ function App(props) {
             </Route>
 
             <Route path="/account/create-post">
-              <CreatePost />
+              {user ? <CreatePost /> : <Redirect to="/login" />}
             </Route>
             <Route path="/admin/check-posts">
+              {isAdmin() ? (
+                <>
+                  <SideBar />
+                  <Posts postsType={'inactive'} user={user} />
+                </>
+              ) : (
+                <Redirect to="/login" />
+              )}
               <SideBar />
-              <Posts postsType={'inactive'} user={user} />
             </Route>
             <Route path="/admin/create-category">
               <CreateCategory />

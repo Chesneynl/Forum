@@ -1,13 +1,11 @@
 import React, { useState } from 'react'
 import { TextInput } from '../form/TextInput'
 import { SubmitButton } from '../form/SubmitButton'
-import { InfoMessage } from '../ui'
+import { InfoMessage, Heading2 } from '../ui'
 
 export function Login(props) {
-  const currentUser = props.user
   const [user, setUser] = useState({ email: '', password: '' })
   const [errors, setErrors] = useState({})
-  const [loggedIn, setLoggedIn] = useState(false)
 
   const onChange = event => {
     setUser({ ...user, [event.target.name]: event.target.value })
@@ -39,20 +37,21 @@ export function Login(props) {
         }
       })
       .then(response => {
-        if (response.success) {
-          setLoggedIn(true)
-        } else [setErrors(response.errors)]
+        if (response && response.errors) {
+          setErrors(response.errors)
+          console.log(response)
+        }
       })
       .catch(error => console.log(error))
   }
 
-  const renderForm = (
+  return (
     <>
-      <h1 className="font-weight-normal mb-5">Login</h1>
+      <Heading2>Login</Heading2>
       <form onSubmit={onSubmit}>
         <TextInput
           type={'text'}
-          error={errors && errors.email}
+          error={errors && errors.doesnt_exists}
           name={'email'}
           value={user.email}
           onChange={onChange}
@@ -60,7 +59,7 @@ export function Login(props) {
         />
         <TextInput
           type={'Password'}
-          error={(errors && errors.password) || errors.doesnt_exists}
+          error={errors && errors.doesnt_exists}
           name={'password'}
           value={user.password}
           onChange={onChange}
@@ -69,23 +68,5 @@ export function Login(props) {
         <SubmitButton name={'Login'} />
       </form>
     </>
-  )
-
-  const isLoggedIn = (
-    <>
-      <div className="form-field-error">You are already logged in..</div>
-    </>
-  )
-
-  return (
-    <div className="container mt-5">
-      <div className="row">
-        <div className="col-sm-12 col-lg-6 offset-lg-3">
-          {loggedIn && <InfoMessage>You're now logged in.</InfoMessage>}
-          {currentUser && isLoggedIn}
-          {!currentUser && !loggedIn ? renderForm : <div></div>}
-        </div>
-      </div>
-    </div>
   )
 }

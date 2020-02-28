@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 
 import { TextInput, SubmitButton } from '../form'
-import { InfoMessage } from '../ui'
+import { InfoMessage, Heading2 } from '../ui'
 
 export function Register() {
   const [user, setUser] = useState({
@@ -56,54 +56,44 @@ export function Register() {
   }
 
   return (
-    <div className="container mt-5">
-      <div className="row">
-        <div className="col-sm-12 col-lg-6 offset-lg-3">
-          {!registerd ? (
-            <>
-              <h1 className="font-weight-normal mb-5">Register</h1>
-              <form onSubmit={onSubmit}>
-                <TextInput
-                  type={'text'}
-                  error={errors && errors.email}
-                  name={'email'}
-                  value={user.email}
-                  onChange={onChange}
-                  placeholder={'E-mail address'}
-                />
-                <TextInput
-                  type={'text'}
-                  error={errors && errors.username}
-                  name={'username'}
-                  value={user.username}
-                  onChange={onChange}
-                  placeholder={'Username'}
-                />
-                <TextInput
-                  type={'password'}
-                  error={errors && errors.password}
-                  value={user.password}
-                  onChange={onChange}
-                  name={'password'}
-                  placeholder={'Password'}
-                />
-                <TextInput
-                  type={'password'}
-                  onChange={onChange}
-                  error={errors && errors.password}
-                  value={user.password_repeat}
-                  name={'password_repeat'}
-                  placeholder={'Repeat password'}
-                />
+    <>
+      <Heading2>Register</Heading2>
+      <form onSubmit={onSubmit}>
+        <TextInput
+          type={'text'}
+          error={errors && errors.email}
+          name={'email'}
+          value={user.email}
+          onChange={onChange}
+          placeholder={'E-mail address'}
+        />
+        <TextInput
+          type={'text'}
+          error={errors && errors.username}
+          name={'username'}
+          value={user.username}
+          onChange={onChange}
+          placeholder={'Username'}
+        />
+        <TextInput
+          type={'password'}
+          error={errors && errors.password}
+          value={user.password}
+          onChange={onChange}
+          name={'password'}
+          placeholder={'Password'}
+        />
+        <TextInput
+          type={'password'}
+          onChange={onChange}
+          error={errors && errors.password}
+          value={user.password_repeat}
+          name={'password_repeat'}
+          placeholder={'Repeat password'}
+        />
 
-                <SubmitButton name={'Register'} />
-              </form>
-            </>
-          ) : (
-            <InfoMessage>Thanks you for registering.</InfoMessage>
-          )}
-        </div>
-      </div>
-    </div>
+        <SubmitButton name={'Register'} />
+      </form>
+    </>
   )
 }

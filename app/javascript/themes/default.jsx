@@ -1,5 +1,6 @@
 const themeColors = {
-  primary: '#eee',
+  primary: '#33a8ff',
+  error: '#9f3a38',
   warning: '#c0392b',
   warningDark: '#a53125',
   success: '#2bc066',
@@ -8,8 +9,7 @@ const themeColors = {
 
 export const defaultTheme = {
   typography: {
-    fontFamily: '"Roboto", "Open Sans", Calibri, Helvetica, Tahoma, sans-serif',
-    buttonFontFamily: '"Alata" sans-serif',
+    fontFamily: 'Spartan, Calibri, Helvetica, Tahoma, sans-serif',
 
     fontSizes: {
       small: '13px',
@@ -31,6 +31,11 @@ export const defaultTheme = {
     },
   },
 
+  form: {
+    borderColor: '#22242626',
+    focusBorderColor: themeColors.primary,
+  },
+
   gutters: {
     extraLarge: '50px',
     large: '30px',
@@ -49,6 +54,7 @@ export const defaultTheme = {
 
   colors: {
     primary: themeColors.primary,
+    error: themeColors.error,
     success: themeColors.success,
   },
 
