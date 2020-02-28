@@ -10,7 +10,7 @@ export const Link = props => {
 
   const Link = styled.a`
     text-decoration: none;
-    color: #000;
+    color: ${props => props.theme.colors.primary};
 
     &:hover {
       color: #06aeed;

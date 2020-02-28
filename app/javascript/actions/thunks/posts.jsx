@@ -11,43 +11,15 @@ export function fetchCategories() {
   }
 }
 
-export function fetchInActivePosts() {
+export function fetchPosts(type, categoryId) {
+  const postsType = type ? 'type=' + type : ''
+  const category = categoryId ? 'category=' + categoryId : ''
+  const getCombination = type && categoryId ? '?' + postsType + '&' + category : '?' + postsType
+
+  console.log(getCombination)
+
   return async function(dispatch) {
-    return fetch('/api/v1/inactive-posts')
-      .then(response => {
-        if (response.ok) {
-          return response.json()
-        }
-
-        throw new Error('Network response was not ok.')
-      })
-      .then(function(json) {
-        dispatch(setPosts(json))
-        dispatch(setPostsLoading(false))
-      })
-  }
-}
-
-export function fetchPosts() {
-  return async function(dispatch) {
-    return fetch('/api/v1/posts')
-      .then(response => {
-        if (response.ok) {
-          return response.json()
-        }
-
-        throw new Error('Network response was not ok.')
-      })
-      .then(function(json) {
-        dispatch(setPosts(json))
-        dispatch(setPostsLoading(false))
-      })
-  }
-}
-
-export function fetchPostsByCategory(id) {
-  return async function(dispatch) {
-    return fetch('/api/v1/category/' + id)
+    return fetch('/api/v1/posts' + getCombination)
       .then(response => {
         if (response.ok) {
           return response.json()

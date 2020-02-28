@@ -2,20 +2,48 @@ import React from 'react'
 import { useDispatch } from 'react-redux'
 import { BrowserRouter as Router, Switch, Route, Link, NavLink } from 'react-router-dom'
 import styled from 'styled-components'
-import { Container } from './ui'
 import { logout } from '../actions/thunks'
+
+const MainContainer = styled.div`
+  position: fixed;
+  left: 0;
+  top: 0;
+  right: 0;
+  z-index: 100;
+`
+
+const Logo = styled.div`
+  width: 20px;
+
+  img {
+    width: 100%;
+  }
+`
+
+const AdminPanel = styled.div`
+  position: absolute;
+  left: 0;
+  top: 100%;
+
+  a {
+    display: block;
+    text-decoration: none;
+    color: #fff;
+    background-color: ${props => props.theme.colors.primary};
+    padding: ${props => props.theme.gutters.small} ${props => props.theme.gutters.medium};
+  }
+`
 
 const Base = styled.div`
   background: #fff;
   padding: 20px 0;
   box-shadow: 0 4px 2px -2px #cacaca;
-  margin-bottom: 50px;
 `
 
 const BaseTopBar = styled.div`
-  padding: 5px 0;
   background-color: ${props => props.theme.colors.primary};
   text-align: right;
+  height: 5px;
   font-size: 14px;
 `
 
@@ -24,6 +52,7 @@ const StyledContainer = styled.div`
   justify-content: space-between;
   margin: 0 auto;
   max-width: 1024px;
+  position: relative;
 `
 
 const MenuItem = styled.li`
@@ -42,29 +71,56 @@ const MenuItemLink = styled(NavLink)`
   text-decoration: none;
   color: #000;
 
-  &;hover,
+  &:hover,
   &.active {
-    color: red;
+    color: ${props => props.theme.colors.primary};
   }
 `
 
 const Submenu = styled.ul`
+  text-align: right;
+  right: 0;
   display: none;
   position: absolute;
   top: 100%;
   list-style: none;
   z-index: 100;
   white-space: nowrap;
-  background: #fff;
+  width: 175px;
   padding-top: 10px;
-  padding-bottom: 20px;
+  padding-top: 20px;
 
   ${MenuItem}:hover & {
     display: block;
   }
 `
 
-const SubmenuItem = styled.li``
+const SubmenuItem = styled.li`
+  border: 1px solid rgba(34, 36, 38, 0.15);
+  border-top: 0;
+
+  &:first-child {
+    border-top: 1px solid rgba(34, 36, 38, 0.15);
+  }
+
+  &:last-child {
+    box-shadow: 0 1px 2px 0 rgba(34, 36, 38, 0.15);
+  }
+
+  ${MenuItemLink} {
+    background: #fff;
+    padding: ${props => props.theme.gutters.small} ${props => props.theme.gutters.medium};
+    width: 100%;
+    display: block;
+  }
+
+  &:hover {
+    ${MenuItemLink} {
+      background: #fff;
+      color: ${props => props.theme.colors.primary};
+    }
+  }
+`
 
 export const Header = props => {
   const { user } = props
@@ -76,52 +132,22 @@ export const Header = props => {
   }
 
   return (
-    <>
-      <BaseTopBar>
-        <Container>
-          {user && user.admin && (
-            <MenuItem>
-              <MenuItemLink to="/admin/check-posts">Admin panel</MenuItemLink>
-            </MenuItem>
-          )}
-          {!user ? (
-            <>
-              <MenuItemLink to="/register">REGISTER</MenuItemLink>
-              <MenuItemLink to="/login">LOGIN</MenuItemLink>
-            </>
-          ) : (
-            <>
-              <MenuItem>
-                <MenuItemLink to="/account/my-posts">{user.username}</MenuItemLink>
-                <Submenu>
-                  <SubmenuItem>
-                    <MenuItemLink to="/account/my-posts">My posts</MenuItemLink>
-                  </SubmenuItem>
-                  <SubmenuItem>
-                    <MenuItemLink to="/account/create-post">Create post</MenuItemLink>
-                  </SubmenuItem>
-                  <SubmenuItem>
-                    <MenuItemLink to="/account/edit-profile">Account settings</MenuItemLink>
-                  </SubmenuItem>
-                </Submenu>
-              </MenuItem>
-              <MenuItem>
-                <MenuItemLink to="/logout" onClick={e => logoutClick(e)}>
-                  Logout
-                </MenuItemLink>
-              </MenuItem>
-            </>
-          )}
-        </Container>
-      </BaseTopBar>
+    <MainContainer>
+      <BaseTopBar />
       <Base>
+        <AdminPanel>
+          {user && user.admin && <a href="/admin/check-posts">Admin panel</a>}
+        </AdminPanel>
         <StyledContainer>
-          <a className="logo" href="/">
-            Logo
-          </a>
+          <Logo>
+            <a className="logo" href="/">
+              <img src="/assets/logo.png" />
+            </a>
+          </Logo>
+
           <ul>
             <MenuItem>
-              <MenuItemLink to="/New">New</MenuItemLink>
+              <MenuItemLink to="/posts/new">New</MenuItemLink>
             </MenuItem>
             <MenuItem>
               <MenuItemLink to="/trennding">Trending</MenuItemLink>
@@ -134,9 +160,32 @@ export const Header = props => {
             <input type="search" placeholder="Search" />
             <button type="submit">Search</button>
           </form>
+          <MenuItemLink to="/register">REGISTER</MenuItemLink>
+          <MenuItemLink to="/login">LOGIN</MenuItemLink>
+          {user && (
+            <MenuItem>
+              <MenuItemLink to="/account/my-posts">{user.username}</MenuItemLink>
+              <Submenu>
+                <SubmenuItem>
+                  <MenuItemLink to="/account/my-posts">My posts</MenuItemLink>
+                </SubmenuItem>
+                <SubmenuItem>
+                  <MenuItemLink to="/account/create-post">Create post</MenuItemLink>
+                </SubmenuItem>
+                <SubmenuItem>
+                  <MenuItemLink to="/account/edit-profile">Account settings</MenuItemLink>
+                </SubmenuItem>
+                <SubmenuItem>
+                  <MenuItemLink to="/logout" onClick={e => logoutClick(e)}>
+                    Logout
+                  </MenuItemLink>
+                </SubmenuItem>
+              </Submenu>
+            </MenuItem>
+          )}
         </StyledContainer>
       </Base>
-    </>
+    </MainContainer>
   )
 }
 

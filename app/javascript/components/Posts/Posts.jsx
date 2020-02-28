@@ -25,16 +25,16 @@ export function Posts(props) {
   useEffect(() => {
     switch (postsType) {
       case 'category':
-        dispatch(fetchPostsByCategory(id))
+        dispatch(fetchPosts('new', id))
         break
       case 'new':
-        dispatch(fetchPosts())
+        dispatch(fetchPosts('new', null))
         break
       case 'inactive':
-        dispatch(fetchInActivePosts())
+        dispatch(fetchPosts('inactive', null))
         break
       case 'my-posts':
-        dispatch(fetchPosts())
+        dispatch(fetchPosts('my-posts', null))
         break
       default:
         null

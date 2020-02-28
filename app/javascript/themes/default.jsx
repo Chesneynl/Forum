@@ -4,6 +4,7 @@ const themeColors = {
   warning: '#c0392b',
   warningDark: '#a53125',
   success: '#2bc066',
+  fadedSuccess: '#aeffce33',
   successDark: '#26a258',
 }
 
@@ -56,6 +57,7 @@ export const defaultTheme = {
     primary: themeColors.primary,
     error: themeColors.error,
     success: themeColors.success,
+    fadedSuccess: themeColors.fadedSuccess,
   },
 
   iconSizes: {

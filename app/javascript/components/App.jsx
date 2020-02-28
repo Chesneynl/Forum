@@ -8,7 +8,7 @@ import thunk from 'redux-thunk'
 import ThemeProvider from '../ThemeProvider'
 import { Posts, Post } from './posts'
 import { Container } from './ui'
-import { Login, Register, MyPosts, EditProfile } from './account'
+import { RegisterLogin, MyPosts, EditProfile } from './account'
 import { CreatePost, Categories } from './posts'
 import { Header } from './Header'
 import { CreateCategory, SideBar } from './admin'
@@ -34,11 +34,15 @@ function App(props) {
             <Route exact path="/">
               <Posts postsType={'new'} user={user} />
             </Route>
-            <Route path="/login">{user ? <Redirect to="/" /> : <Login />}</Route>
-            <Route path="/register">{user ? <Redirect to="/" /> : <Register />}</Route>
+            <Route path="/login">{user ? <Redirect to="/" /> : <RegisterLogin />}</Route>
+            <Route path="/register">{user ? <Redirect to="/" /> : <RegisterLogin />}</Route>
 
             <Route path="/post/:id">
               <Post />
+            </Route>
+
+            <Route path="/posts/new">
+              <Posts postsType={'new'} user={user} />
             </Route>
 
             <Route path="/categories">
@@ -54,10 +58,10 @@ function App(props) {
             <Route path="/account/edit-profile">
               <EditProfile />
             </Route>
-
             <Route path="/account/create-post">
               {user ? <CreatePost /> : <Redirect to="/login" />}
             </Route>
+
             <Route path="/admin/check-posts">
               {isAdmin() ? (
                 <>

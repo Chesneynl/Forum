@@ -2,10 +2,12 @@ import React from 'react'
 import styled from 'styled-components'
 
 const Base = styled.div`
-  padding: 10px 10px;
-  background: ${props => props.theme.colors.success};
+  padding: ${props => props.theme.gutters.medium} ${props => props.theme.gutters.medium};
+  color: ${props => props.theme.colors.success};
+  background: ${props => props.theme.colors.fadedSuccess};
+  box-shadow: 0 0 0 1px ${props => props.theme.colors.success} inset, 0 0 0 0 transparent;
+  margin-bottom: ${props => props.theme.gutters.medium};
   width: 100%;
-  color: #fff;
   border-radius: 5px;
 `
 

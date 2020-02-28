@@ -58,42 +58,46 @@ export function Register() {
   return (
     <>
       <Heading2>Register</Heading2>
-      <form onSubmit={onSubmit}>
-        <TextInput
-          type={'text'}
-          error={errors && errors.email}
-          name={'email'}
-          value={user.email}
-          onChange={onChange}
-          placeholder={'E-mail address'}
-        />
-        <TextInput
-          type={'text'}
-          error={errors && errors.username}
-          name={'username'}
-          value={user.username}
-          onChange={onChange}
-          placeholder={'Username'}
-        />
-        <TextInput
-          type={'password'}
-          error={errors && errors.password}
-          value={user.password}
-          onChange={onChange}
-          name={'password'}
-          placeholder={'Password'}
-        />
-        <TextInput
-          type={'password'}
-          onChange={onChange}
-          error={errors && errors.password}
-          value={user.password_repeat}
-          name={'password_repeat'}
-          placeholder={'Repeat password'}
-        />
+      {registerd ? (
+        <InfoMessage>You are succesfully registered.</InfoMessage>
+      ) : (
+        <form onSubmit={onSubmit}>
+          <TextInput
+            type={'text'}
+            error={errors && errors.email}
+            name={'email'}
+            value={user.email}
+            onChange={onChange}
+            placeholder={'E-mail address'}
+          />
+          <TextInput
+            type={'text'}
+            error={errors && errors.username}
+            name={'username'}
+            value={user.username}
+            onChange={onChange}
+            placeholder={'Username'}
+          />
+          <TextInput
+            type={'password'}
+            error={errors && errors.password}
+            value={user.password}
+            onChange={onChange}
+            name={'password'}
+            placeholder={'Password'}
+          />
+          <TextInput
+            type={'password'}
+            onChange={onChange}
+            error={errors && errors.password}
+            value={user.password_repeat}
+            name={'password_repeat'}
+            placeholder={'Repeat password'}
+          />
 
-        <SubmitButton name={'Register'} />
-      </form>
+          <SubmitButton name={'Register'} />
+        </form>
+      )}
     </>
   )
 }

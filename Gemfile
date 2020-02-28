@@ -36,6 +36,7 @@ gem 'pusher'
 gem 'figaro'
 gem "pundit"  
 gem 'rack-cors'
+gem 'pry'
 
 # Use ActiveStorage variant
 # gem 'mini_magick', '~> 4.8'
