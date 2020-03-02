@@ -2,20 +2,22 @@ import React, { useState } from 'react'
 import { TextInput } from '../form/TextInput'
 import { SubmitButton } from '../form/SubmitButton'
 import { InfoMessage, Heading2 } from '../ui'
+import { Redirect } from 'react-router-dom'
 
 export function Login(props) {
-  const [user, setUser] = useState({ email: '', password: '' })
+  const [userLogin, setUser] = useState({ email: '', password: '' })
   const [errors, setErrors] = useState({})
+  const [loggedIn, setLoggedIn] = useState(false)
 
   const onChange = event => {
-    setUser({ ...user, [event.target.name]: event.target.value })
+    setUser({ ...userLogin, [event.target.name]: event.target.value })
   }
 
   const onSubmit = event => {
     event.preventDefault()
     const url = '/login'
 
-    const { email, password } = user
+    const { email, password } = userLogin
 
     const body = {
       email,
@@ -39,11 +41,24 @@ export function Login(props) {
       .then(response => {
         if (response && response.errors) {
           setErrors(response.errors)
-          console.log(response)
+        } else if (response && response.success) {
+          setLoggedIn(true)
         }
       })
       .catch(error => console.log(error))
   }
+
+  // console.log(userLogin)
+
+  // if (userLogin && loggedIn)
+  //   return (
+  //     <Redirect
+  //       to={{
+  //         pathname: '/',
+  //         state: 'Please sign in',
+  //       }}
+  //     />
+  //   )
 
   return (
     <>
@@ -53,7 +68,7 @@ export function Login(props) {
           type={'text'}
           error={errors && errors.doesnt_exists}
           name={'email'}
-          value={user.email}
+          value={userLogin.email}
           onChange={onChange}
           placeholder={'E-mail address'}
         />
@@ -61,7 +76,7 @@ export function Login(props) {
           type={'Password'}
           error={errors && errors.doesnt_exists}
           name={'password'}
-          value={user.password}
+          value={userLogin.password}
           onChange={onChange}
           placeholder={'Password'}
         />

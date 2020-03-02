@@ -13,7 +13,7 @@ export function fetchCategories() {
 
 export function fetchPosts(type, categoryId) {
   const postsType = type ? 'type=' + type : ''
-  const category = categoryId ? 'category=' + categoryId : ''
+  const category = categoryId ? 'categoryid=' + categoryId : ''
   const getCombination = type && categoryId ? '?' + postsType + '&' + category : '?' + postsType
 
   console.log(getCombination)

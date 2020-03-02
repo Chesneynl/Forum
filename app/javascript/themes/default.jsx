@@ -5,7 +5,6 @@ const themeColors = {
   warningDark: '#a53125',
   success: '#2bc066',
   fadedSuccess: '#aeffce33',
-  successDark: '#26a258',
 }
 
 export const defaultTheme = {
@@ -14,7 +13,7 @@ export const defaultTheme = {
 
     fontSizes: {
       small: '13px',
-      medium: '15px',
+      medium: '14px',
       large: '17px',
       extraLarge: '24px',
     },
@@ -50,7 +49,8 @@ export const defaultTheme = {
     delete: themeColors.warning,
     deleteDark: themeColors.warningDark,
     success: themeColors.success,
-    successDark: themeColors.successDark,
+    like: '#1eb24c',
+    disLike: '#db2828',
   },
 
   colors: {

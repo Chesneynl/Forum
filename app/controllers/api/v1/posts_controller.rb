@@ -5,18 +5,33 @@ class Api::V1::PostsController < ApplicationController
   skip_before_action :verify_authenticity_token
 
   def index
-    posts = Post.where(active: true)
-
+    if params[:type].present? && !params[:categoryid].present?
+      case params[:type]
+      when 'new'
+        posts = Post.where(active: true).sort_by {|p| p.created_at }
+      when 'inactive'
+        posts = inactive_pposts
+      when 'my-posts'
+        posts = user_posts
+      else
+        posts = Post.where(active: true).sort_by {|p| p.created_at }
+      end
+    elsif params[:type].present? && params[:categoryid].present?
+      posts = Post.where(active: true, posts_categories_id: params[:categoryid]).sort_by {|p| p.created_at }
+    end
+    
     render json: posts
   end
 
   def inactive_pposts
     if userIsAdmin? 
-      posts = Post.where(active: false)
+      Post.where(active: false)
+    end
+  end
 
-      render json: posts
-    else 
-      render json: 'You dont have permission' 
+  def user_posts 
+    if logged_in?
+      Post.where(active: true, user_id: session[:user_id])
     end
   end
 

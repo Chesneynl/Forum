@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import {
   fetchPosts,
@@ -10,7 +10,7 @@ import {
 } from '../../actions/thunks'
 import { Link, LoadingSpinner, Button } from '../ui'
 import styled from 'styled-components'
-import { useParams } from 'react-router-dom'
+import { useParams, Redirect } from 'react-router-dom'
 import { LikeDislikes } from './LikeDislikes'
 
 export function Posts(props) {
@@ -18,9 +18,12 @@ export function Posts(props) {
   const posts = useSelector(state => state.posts.items)
   const likes = useSelector(state => state.likes.items)
   const isloading = useSelector(state => state.posts.isLoading)
+  const [likeDislikeClicked, seLikeDislikeClickedt] = useState(false)
   const dispatch = useDispatch()
   const csrfToken = document.querySelector('meta[name=csrf-token]').content
   const { id } = useParams()
+
+  console.log(props)
 
   useEffect(() => {
     switch (postsType) {
@@ -107,6 +110,10 @@ export function Posts(props) {
       .catch(error => console.log(error))
   }
 
+  console.log(likeDislikeClicked)
+
+  if (!user && likeDislikeClicked) return <Redirect to="/login" />
+
   return (
     <>
       {isloading && <LoadingSpinner />}
@@ -140,7 +147,10 @@ export function Posts(props) {
                   labelPostion={'left'}
                   count={post.likes}
                   active={liked}
-                  onClick={() => dispatch(likePost(post.id, csrfToken))}
+                  onClick={() => {
+                    dispatch(likePost(post.id, csrfToken))
+                    seLikeDislikeClickedt(true)
+                  }}
                 />
                 <LikeDislikes
                   name={'Dislike'}
@@ -148,7 +158,10 @@ export function Posts(props) {
                   labelPostion={'right'}
                   count={post.dislikes}
                   active={disLiked}
-                  onClick={() => dispatch(dislikePost(post.id, csrfToken))}
+                  onClick={() => {
+                    dispatch(dislikePost(post.id, csrfToken))
+                    seLikeDislikeClickedt(true)
+                  }}
                 />
               </LikeDislikeContainer>
             </Post>

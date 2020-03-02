@@ -38,6 +38,9 @@ Rails.application.routes.draw do
   scope :account do
     get 'create-post', to: 'static#index'
   end
+
+  #posts
+  get 'posts/new', to: 'static#index'
   
   # account
   scope :account do

@@ -49,11 +49,11 @@ function App(props) {
               <Categories />
             </Route>
             <Route path="/category/:id">
-              <Posts postsType={'category'} />
+              <Posts postsType={'category'} user={user} />
             </Route>
 
             <Route path="/account/my-posts">
-              <Posts postsType={'my-posts'} />
+              <Posts postsType={'my-posts'} user={user} />
             </Route>
             <Route path="/account/edit-profile">
               <EditProfile />
