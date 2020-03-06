@@ -6,6 +6,34 @@ import styled from 'styled-components'
 import { useParams, Redirect } from 'react-router-dom'
 import { LikeDislikes } from './LikeDislikes'
 
+const Post = styled.div`
+  width: 75%;
+  border-radius: 5px;
+  padding: 20px;
+  margin-bottom: 10px;
+  background: #fff;
+  margin-bottom: ${props => props.theme.gutters.large};
+  box-shadow: 0px 0px 5px 0px rgba(194, 194, 194, 0.75);
+`
+
+const PostTitle = styled.div`
+  padding-bottom: 15px;
+  font-size: 24px;
+`
+
+const PostFileContainer = styled.div`
+  width: 100%;
+
+  img {
+    width: 100%;
+  }
+`
+
+const LikeDislikeContainer = styled.div`
+  display: flex;
+  margin-top: ${props => props.theme.gutters.small};
+`
+
 export function Posts(props) {
   const { postsType } = props
   const user = useSelector(state => state.users.current_user)
@@ -37,34 +65,6 @@ export function Posts(props) {
 
     dispatch(fetchLikes())
   }, [])
-
-  const Post = styled.div`
-    width: 75%;
-    border-radius: 5px;
-    padding: 20px;
-    margin-bottom: 10px;
-    background: #fff;
-    margin-bottom: ${props => props.theme.gutters.large};
-    box-shadow: 0px 0px 5px 0px rgba(194, 194, 194, 0.75);
-  `
-
-  const PostTitle = styled.div`
-    padding-bottom: 15px;
-    font-size: 24px;
-  `
-
-  const PostFileContainer = styled.div`
-    width: 100%;
-
-    img {
-      width: 100%;
-    }
-  `
-
-  const LikeDislikeContainer = styled.div`
-    display: flex;
-    margin-top: ${props => props.theme.gutters.small};
-  `
 
   const onEmpty = (
     <div className="vw-100 vh-50 d-flex align-items-center justify-content-center">
@@ -141,6 +141,7 @@ export function Posts(props) {
                   onClick={() => {
                     dispatch(likePost(post.id, csrfToken))
                     seLikeDislikeClickedt(true)
+                    likes = likes++
                   }}
                 />
                 <LikeDislikes
