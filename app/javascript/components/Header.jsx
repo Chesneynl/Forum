@@ -1,5 +1,5 @@
 import React from 'react'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { BrowserRouter as Router, Switch, Route, Link, NavLink } from 'react-router-dom'
 import styled from 'styled-components'
 import { logout } from '../actions/thunks'
@@ -123,7 +123,7 @@ const SubmenuItem = styled.li`
 `
 
 export const Header = props => {
-  const { user } = props
+  const user = useSelector(state => state.users.current_user)
   const dispatch = useDispatch()
 
   function logoutClick(e) {
@@ -160,9 +160,8 @@ export const Header = props => {
             <input type="search" placeholder="Search" />
             <button type="submit">Search</button>
           </form>
-          <MenuItemLink to="/register">REGISTER</MenuItemLink>
-          <MenuItemLink to="/login">LOGIN</MenuItemLink>
-          {user && (
+
+          {user ? (
             <MenuItem>
               <MenuItemLink to="/account/my-posts">{user.username}</MenuItemLink>
               <Submenu>
@@ -182,6 +181,11 @@ export const Header = props => {
                 </SubmenuItem>
               </Submenu>
             </MenuItem>
+          ) : (
+            <>
+              <MenuItemLink to="/register">REGISTER</MenuItemLink>
+              <MenuItemLink to="/login">LOGIN</MenuItemLink>
+            </>
           )}
         </StyledContainer>
       </Base>

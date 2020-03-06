@@ -73,13 +73,33 @@ class Api::V1::PostsController < ApplicationController
   def like_dislike
     existing_like_dislike = UserLikesDislikes.where(like_params.slice(:post_id, :user_id))
 
+    if like_params[:liked]
+      add_like_to_post(like_params[:post_id])
+    elsif like_params[:disliked]
+      add_dislike_to_post(like_params[:post_id])
+    end
+
     if !existing_like_dislike.exists?
       like_dislike = UserLikesDislikes.create(like_params)
-      render json: {success: 'created'}
+      render json: {success: true}
     else
       like_dislike = existing_like_dislike.update(like_params)
-      render json: {success: 'updated'}
+      render json: {success: true}
     end
+  end
+
+  def add_like_to_post(id)
+    post = Post.find(id)
+
+    post.increment!(:likes)
+    post.decrement!(:dislikes) unless post.dislikes - 1 <  0
+  end
+
+  def add_dislike_to_post(id)
+    post = Post.find(id)
+
+    post.decrement!(:likes) unless post.likes - 1 <  0
+    post.increment!(:dislikes)
   end
 
 

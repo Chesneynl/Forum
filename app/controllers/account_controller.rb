@@ -1,13 +1,5 @@
 class AccountController < ApplicationController  
   skip_before_action :verify_authenticity_token
-  
-  def index
-    react_props
-  end  
-
-  def edit
-    react_props
-  end  
 
   def current_user
     render json: logged_in_user
@@ -34,7 +26,8 @@ class AccountController < ApplicationController
 
     if user && user.authenticate(params[:password])
         session[:user_id] = user.id
-        render json: {success: true}
+
+        render json: {success: true, user: user.attributes.except(:password_digest, :created_at, :updated_at)}
     else
         render json: {errors: {doesnt_exists: 'A user with that email and password doesnt exists.'} }
     end

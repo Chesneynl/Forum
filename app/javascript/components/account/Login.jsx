@@ -1,16 +1,19 @@
 import React, { useState } from 'react'
 import { TextInput } from '../form/TextInput'
 import { SubmitButton } from '../form/SubmitButton'
-import { InfoMessage, Heading2 } from '../ui'
+import { Heading2 } from '../ui'
 import { Redirect } from 'react-router-dom'
+import { setUser } from '../../actions'
+import { useDispatch } from 'react-redux'
 
 export function Login(props) {
-  const [userLogin, setUser] = useState({ email: '', password: '' })
+  const [userLogin, setUserLogin] = useState({ email: '', password: '' })
   const [errors, setErrors] = useState({})
   const [loggedIn, setLoggedIn] = useState(false)
+  const dispatch = useDispatch()
 
   const onChange = event => {
-    setUser({ ...userLogin, [event.target.name]: event.target.value })
+    setUserLogin({ ...userLogin, [event.target.name]: event.target.value })
   }
 
   const onSubmit = event => {
@@ -43,22 +46,14 @@ export function Login(props) {
           setErrors(response.errors)
         } else if (response && response.success) {
           setLoggedIn(true)
+          dispatch(setUser(response.user))
+          localStorage.setItem('message', 'Succesully logged in.')
         }
       })
       .catch(error => console.log(error))
   }
 
-  // console.log(userLogin)
-
-  // if (userLogin && loggedIn)
-  //   return (
-  //     <Redirect
-  //       to={{
-  //         pathname: '/',
-  //         state: 'Please sign in',
-  //       }}
-  //     />
-  //   )
+  if (userLogin && loggedIn) return <Redirect to="/" />
 
   return (
     <>

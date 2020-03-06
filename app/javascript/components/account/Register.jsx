@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 
 import { TextInput, SubmitButton } from '../form'
-import { InfoMessage, Heading2 } from '../ui'
+import { Alert, Heading2 } from '../ui'
 
 export function Register() {
   const [user, setUser] = useState({
@@ -59,7 +59,7 @@ export function Register() {
     <>
       <Heading2>Register</Heading2>
       {registerd ? (
-        <InfoMessage>You are succesfully registered.</InfoMessage>
+        <Alert text="You are succesfully registered." />
       ) : (
         <form onSubmit={onSubmit}>
           <TextInput

@@ -1,6 +1,6 @@
 class AddLikesDislikesToPosts < ActiveRecord::Migration[5.2]
   def change
-    add_column :posts, :likes, :int
-    add_column :posts, :dislikes, :int
+    add_column :posts, :likes, :integer, :default: 0
+    add_column :posts, :dislikes, :integer, :default: 0
   end
 end

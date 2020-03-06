@@ -5,6 +5,7 @@ const themeColors = {
   warningDark: '#a53125',
   success: '#2bc066',
   fadedSuccess: '#aeffce33',
+  fadedInfo: '#33a8ff12',
 }
 
 export const defaultTheme = {
@@ -58,6 +59,7 @@ export const defaultTheme = {
     error: themeColors.error,
     success: themeColors.success,
     fadedSuccess: themeColors.fadedSuccess,
+    info: themeColors.fadedInfo,
   },
 
   iconSizes: {

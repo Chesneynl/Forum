@@ -16,8 +16,6 @@ export function fetchPosts(type, categoryId) {
   const category = categoryId ? 'categoryid=' + categoryId : ''
   const getCombination = type && categoryId ? '?' + postsType + '&' + category : '?' + postsType
 
-  console.log(getCombination)
-
   return async function(dispatch) {
     return fetch('/api/v1/posts' + getCombination)
       .then(response => {
@@ -39,14 +37,12 @@ export function fetchPostById(id) {
     return fetch('/api/v1/post/' + id)
       .then(response => {
         if (response.ok) {
-          console.log(response)
           return response.json()
         }
 
         throw new Error('Network response was not ok.')
       })
       .then(function(json) {
-        console.log(json)
         dispatch(setPost(json))
         dispatch(setPostsLoading(false))
       })

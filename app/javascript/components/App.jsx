@@ -13,13 +13,8 @@ import { CreatePost, Categories } from './posts'
 import { Header } from './Header'
 import { CreateCategory, SideBar } from './admin'
 
-function App(props) {
-  const user = useSelector(state => state.users.current_user)
+function App() {
   const dispatch = useDispatch()
-
-  function isAdmin() {
-    return user && user.admin
-  }
 
   useEffect(() => {
     dispatch(getCurrentUser())
@@ -28,50 +23,47 @@ function App(props) {
   return (
     <ThemeProvider theme="defaultTheme">
       <Router>
-        <Header user={user} />
+        <Header />
         <Switch>
           <Container>
             <Route exact path="/">
-              <Posts postsType={'new'} user={user} />
+              <Posts postsType={'new'} />
             </Route>
-            <Route path="/login">{user ? <Redirect to="/" /> : <RegisterLogin />}</Route>
-            <Route path="/register">{user ? <Redirect to="/" /> : <RegisterLogin />}</Route>
+            <Route path="/login">
+              <RegisterLogin />
+            </Route>
+            <Route path="/register">
+              <RegisterLogin />
+            </Route>
 
             <Route path="/post/:id">
               <Post />
             </Route>
 
             <Route path="/posts/new">
-              <Posts postsType={'new'} user={user} />
+              <Posts postsType={'new'} />
             </Route>
 
             <Route path="/categories">
               <Categories />
             </Route>
             <Route path="/category/:id">
-              <Posts postsType={'category'} user={user} />
+              <Posts postsType={'category'} />
             </Route>
 
             <Route path="/account/my-posts">
-              <Posts postsType={'my-posts'} user={user} />
+              <Posts postsType={'my-posts'} />
             </Route>
             <Route path="/account/edit-profile">
               <EditProfile />
             </Route>
             <Route path="/account/create-post">
-              {user ? <CreatePost /> : <Redirect to="/login" />}
+              <CreatePost />
             </Route>
 
             <Route path="/admin/check-posts">
-              {isAdmin() ? (
-                <>
-                  <SideBar />
-                  <Posts postsType={'inactive'} user={user} />
-                </>
-              ) : (
-                <Redirect to="/login" />
-              )}
               <SideBar />
+              <Posts postsType={'inactive'} />
             </Route>
             <Route path="/admin/create-category">
               <CreateCategory />

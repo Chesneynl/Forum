@@ -1,20 +1,14 @@
 import React, { useEffect, useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import {
-  fetchPosts,
-  fetchPostsByCategory,
-  fetchInActivePosts,
-  fetchLikes,
-  likePost,
-  dislikePost,
-} from '../../actions/thunks'
-import { Link, LoadingSpinner, Button } from '../ui'
+import { fetchPosts, fetchLikes, likePost, dislikePost } from '../../actions/thunks'
+import { Link, LoadingSpinner, Button, Alert } from '../ui'
 import styled from 'styled-components'
 import { useParams, Redirect } from 'react-router-dom'
 import { LikeDislikes } from './LikeDislikes'
 
 export function Posts(props) {
-  const { user, postsType } = props
+  const { postsType } = props
+  const user = useSelector(state => state.users.current_user)
   const posts = useSelector(state => state.posts.items)
   const likes = useSelector(state => state.likes.items)
   const isloading = useSelector(state => state.posts.isLoading)
@@ -22,8 +16,6 @@ export function Posts(props) {
   const dispatch = useDispatch()
   const csrfToken = document.querySelector('meta[name=csrf-token]').content
   const { id } = useParams()
-
-  console.log(props)
 
   useEffect(() => {
     switch (postsType) {
@@ -110,12 +102,11 @@ export function Posts(props) {
       .catch(error => console.log(error))
   }
 
-  console.log(likeDislikeClicked)
-
   if (!user && likeDislikeClicked) return <Redirect to="/login" />
 
   return (
     <>
+      <Alert type="info" />
       {isloading && <LoadingSpinner />}
       {!isloading && posts.length === 0 && onEmpty}
       {posts.length > 0 &&
