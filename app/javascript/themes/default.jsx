@@ -10,7 +10,7 @@ const themeColors = {
 
 export const defaultTheme = {
   typography: {
-    fontFamily: 'Spartan, Calibri, Helvetica, Tahoma, sans-serif',
+    fontFamily: 'Roboto, Calibri, Helvetica, Tahoma, sans-serif',
 
     fontSizes: {
       small: '13px',

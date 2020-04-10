@@ -37,7 +37,7 @@ const AdminPanel = styled.div`
 const Base = styled.div`
   background: #fff;
   padding: 20px 0;
-  box-shadow: 0 4px 2px -2px #cacaca;
+  box-shadow: 0 1px 15px rgba(50, 50, 50, 0.2);
 `
 
 const BaseTopBar = styled.div`

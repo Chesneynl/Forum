@@ -1,12 +1,13 @@
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { deletePost, fetchPostById } from '../../actions/thunks'
-import { Container, Button, Link } from '../ui'
+import { Container, Button, Link, Heading1 } from '../ui'
 import { useParams } from 'react-router-dom'
 
 export function Post() {
   const { id } = useParams()
   const post = useSelector(state => state.posts.singlePost)
+  const user = useSelector(state => state.users.current_user)
 
   useEffect(() => {
     dispatch(fetchPostById(id))
@@ -19,27 +20,19 @@ export function Post() {
   return (
     <>
       <Container>
-        <div>
-          <h1>{post.name}</h1>
-        </div>
-        <div className="row">
-          <div className="col-sm-12 col-lg-3">
-            <ul className="list-group">{post.description}</ul>
-          </div>
-          <div className="col-sm-12 col-lg-7">
-            <img src={`${post.attachment}`} />
-            <div
-              dangerouslySetInnerHTML={{
-                __html: `${postDescription}`,
-              }}
-            />
-          </div>
-          <div className="col-sm-12 col-lg-2">
-            <Button active={true} onClick={() => dispatch(deletePost(post.id))}>
-              Delete Post
-            </Button>
-          </div>
-        </div>
+        <Heading1>{post.name}</Heading1>
+        <img src={`${post.attachment}`} />
+        <div
+          dangerouslySetInnerHTML={{
+            __html: `${postDescription}`,
+          }}
+        />
+        {user && user.admin && (
+          <a href="#" active={true} onClick={() => dispatch(deletePost(post.id))}>
+            Delete Post
+          </a>
+        )}
+
         <Link name="Back to posts" to="/" />
       </Container>
     </>

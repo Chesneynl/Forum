@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { fetchPosts, fetchLikes, likePost, dislikePost } from '../../actions/thunks'
-import { Link, LoadingSpinner, Button, Alert } from '../ui'
+import { Link, LoadingSpinner, Alert, Heading2 } from '../ui'
 import styled from 'styled-components'
 import { useParams, Redirect } from 'react-router-dom'
 import { LikeDislikes } from './LikeDislikes'
@@ -14,11 +14,6 @@ const Post = styled.div`
   background: #fff;
   margin-bottom: ${props => props.theme.gutters.large};
   box-shadow: 0px 0px 5px 0px rgba(194, 194, 194, 0.75);
-`
-
-const PostTitle = styled.div`
-  padding-bottom: 15px;
-  font-size: 24px;
 `
 
 const PostFileContainer = styled.div`
@@ -116,9 +111,9 @@ export function Posts(props) {
 
           return (
             <Post key={index}>
-              <PostTitle>
+              <Heading2>
                 <Link name={post.name} to={`/post/${post.id}`} />
-              </PostTitle>
+              </Heading2>
               {!post.active && (
                 <a href="#" onClick={() => setPostActive(post.id)}>
                   Approve post
@@ -141,7 +136,6 @@ export function Posts(props) {
                   onClick={() => {
                     dispatch(likePost(post.id, csrfToken))
                     seLikeDislikeClickedt(true)
-                    likes = likes++
                   }}
                 />
                 <LikeDislikes
