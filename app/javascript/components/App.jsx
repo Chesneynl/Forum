@@ -12,18 +12,38 @@ import { RegisterLogin, MyPosts, EditProfile } from './account'
 import { CreatePost, Categories } from './posts'
 import { Header } from './Header'
 import { CreateCategory, SideBar } from './admin'
+import actionCable from 'actioncable'
+
+const CableApp = {}
+
+CableApp.cable = actionCable.createConsumer('ws://localhost:3000/cable')
 
 function App() {
   const dispatch = useDispatch()
 
   useEffect(() => {
     dispatch(getCurrentUser())
+
+    console.log('mounting')
+    CableApp.cable.subscriptions.create(
+      {
+        channel: 'LoginChannel',
+        room: 'kanaal2',
+      },
+      {
+        recieved: (test) => {
+          console.log('recieved')
+          console.log(test)
+        },
+      },
+    )
+    console.log(CableApp)
   }, [])
 
   return (
     <ThemeProvider theme="defaultTheme">
       <Router>
-        <Header />
+        <Header cableApp={CableApp} />
         <Switch>
           <Container>
             <Route exact path="/">
@@ -75,7 +95,7 @@ function App() {
   )
 }
 
-function AppContainer(props) {
+function AppContainer() {
   const store = createStore(allRedcuer, applyMiddleware(thunk))
 
   return (

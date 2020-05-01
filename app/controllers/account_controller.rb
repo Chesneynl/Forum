@@ -26,6 +26,7 @@ class AccountController < ApplicationController
 
     if user && user.authenticate(params[:password])
         session[:user_id] = user.id
+        cookies.permanent[:user_id] = user.id
 
         render json: {success: true, user: user.attributes.except(:password_digest, :created_at, :updated_at)}
     else

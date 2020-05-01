@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { BrowserRouter as Router, Switch, Route, Link, NavLink } from 'react-router-dom'
 import styled from 'styled-components'
@@ -29,8 +29,8 @@ const AdminPanel = styled.div`
     display: block;
     text-decoration: none;
     color: #fff;
-    background-color: ${props => props.theme.colors.primary};
-    padding: ${props => props.theme.gutters.small} ${props => props.theme.gutters.medium};
+    background-color: ${(props) => props.theme.colors.primary};
+    padding: ${(props) => props.theme.gutters.small} ${(props) => props.theme.gutters.medium};
   }
 `
 
@@ -41,7 +41,7 @@ const Base = styled.div`
 `
 
 const BaseTopBar = styled.div`
-  background-color: ${props => props.theme.colors.primary};
+  background-color: ${(props) => props.theme.colors.primary};
   text-align: right;
   height: 5px;
   font-size: 14px;
@@ -73,7 +73,7 @@ const MenuItemLink = styled(NavLink)`
 
   &:hover,
   &.active {
-    color: ${props => props.theme.colors.primary};
+    color: ${(props) => props.theme.colors.primary};
   }
 `
 
@@ -109,7 +109,7 @@ const SubmenuItem = styled.li`
 
   ${MenuItemLink} {
     background: #fff;
-    padding: ${props => props.theme.gutters.small} ${props => props.theme.gutters.medium};
+    padding: ${(props) => props.theme.gutters.small} ${(props) => props.theme.gutters.medium};
     width: 100%;
     display: block;
   }
@@ -117,13 +117,13 @@ const SubmenuItem = styled.li`
   &:hover {
     ${MenuItemLink} {
       background: #fff;
-      color: ${props => props.theme.colors.primary};
+      color: ${(props) => props.theme.colors.primary};
     }
   }
 `
 
-export const Header = props => {
-  const user = useSelector(state => state.users.current_user)
+export const Header = () => {
+  const user = useSelector((state) => state.users.current_user)
   const dispatch = useDispatch()
 
   function logoutClick(e) {
@@ -175,7 +175,7 @@ export const Header = props => {
                   <MenuItemLink to="/account/edit-profile">Account settings</MenuItemLink>
                 </SubmenuItem>
                 <SubmenuItem>
-                  <MenuItemLink to="/logout" onClick={e => logoutClick(e)}>
+                  <MenuItemLink to="/logout" onClick={(e) => logoutClick(e)}>
                     Logout
                   </MenuItemLink>
                 </SubmenuItem>

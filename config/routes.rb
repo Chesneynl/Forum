@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  mount ActionCable.server, at: '/cable'
 
   # posts
   namespace :api do
