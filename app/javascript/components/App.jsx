@@ -28,7 +28,7 @@ function App() {
     CableApp.cable.subscriptions.create(
       {
         channel: 'LoginChannel',
-        room: 'kanaal2',
+        ROOM: 'kanaal2',
       },
       {
         recieved: (test) => {
